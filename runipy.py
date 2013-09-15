@@ -4,7 +4,7 @@ from Queue import Empty
 import platform
 from time import sleep
 import logging
-
+from sys import stderr
 
 
 from IPython.nbformat.current import read, write, NotebookNode
@@ -23,6 +23,7 @@ MIME_MAP = {
 }
 
 def run_notebook(nb_in, nb_out):
+    exit_status = 0
     km = KernelManager()
     km.start_kernel()
 
@@ -88,32 +89,42 @@ def run_notebook(nb_in, nb_out):
                     out.ename = content['ename']
                     out.evalue = content['evalue']
                     out.traceback = content['traceback']
+                    logging.error('Exiting on error:\n%s', '\n'.join(content['traceback']))
+                    exit_status = 1
+                    break
                 else:
                     print 'unhandled iopub msg:', msg_type
                 outs.append(out)
 
             cell['outputs'] = outs
 
-    write(nb, open(nb_out, 'w'), 'json')
-    
+    if nb_out is not None:
+        write(nb, open(nb_out, 'w'), 'json')
+    exit(exit_status) 
 
 def main():
     # TODO: options:
-    # - error handling (halt?)
     # - output:
-    #   - save to new ipynb
-    #   - save to same ipynb
     #   - save HTML report (nbconvert)
-    #   - do not save, just run
 
     log_format = '%(asctime)s %(message)s'
     log_datefmt = '%m/%d/%Y %I:%M:%S %p'
 
     parser = argparse.ArgumentParser()
     parser.add_argument('input_file')
-    parser.add_argument('output_file')
-    parser.add_argument('--quiet', '-q-', action='store_true')
+    parser.add_argument('output_file', nargs='?')
+    parser.add_argument('--quiet', '-q', action='store_true')
+    parser.add_argument('--overwrite', '-o', action='store_true')
     args = parser.parse_args()
+
+
+    if args.overwrite:
+        if args.output_file is not None:
+            print >> stderr, 'Error: output_filename must not be provided if '\
+                    '--overwrite (-o) given'
+            exit(1)
+        else:
+            args.output_file = args.input_file
 
     if not args.quiet:
         logging.basicConfig(level=logging.DEBUG, format=log_format, datefmt=log_datefmt)
