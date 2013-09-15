@@ -1,19 +1,37 @@
 
 import argparse
 from Queue import Empty
-
-from IPython.nbformat.current import read, write, NotebookNode
-from IPython.kernel.blocking import BlockingKernelClient
-from IPython.kernel import KernelManager
-
 import platform
 from time import sleep
+import logging
+
+
+
+from IPython.nbformat.current import read, write, NotebookNode
+from IPython.kernel import KernelManager
+
+# The kernel communicates with mime-types while the notebook
+# uses short labels for different cell types. We'll use this to
+# map from kernel types to notebook format types.
+
+MIME_MAP = {
+    'image/jpeg': 'jpeg',
+    'image/png': 'png',
+    'text/plain': 'text',
+    'text/html': 'html',
+    'text/latex': 'latex',
+}
 
 def run_notebook(nb_in, nb_out):
     km = KernelManager()
     km.start_kernel()
 
     if platform.system() == 'Darwin':
+        # There is sometimes a race condition where the first
+        # execute command hits the kernel before it's ready.
+        # It appears to happen only on Darwin (Mac OS) and an
+        # easy (but clumsy) way to mitigate it is to sleep
+        # for a second.
         sleep(1)
 
     kc = km.client()
@@ -23,15 +41,15 @@ def run_notebook(nb_in, nb_out):
     iopub = kc.iopub_channel
 
     nb = read(open(nb_in), 'json')
-    for ws in nb.worksheets:
-        for i, cell in enumerate(ws.cells):
-            cell['outputs'] = list()
 
+    for ws in nb.worksheets:
+        for i, cell in enumerate(ws.cells, 1):
             if cell.cell_type != 'code':
                 continue
 
+            logging.info('Running cell %s:\n%s\n', i, cell.input)
             shell.execute(cell.input)
-            reply = shell.get_msg(timeout=20)
+            reply = shell.get_msg()
 
             outs = list()
             while True:
@@ -41,32 +59,31 @@ def run_notebook(nb_in, nb_out):
                     if msg['msg_type'] == 'status' and msg['content']['execution_state'] == 'idle':
                         break
                 except Empty:
+                    # execution state should return to idle before the queue becomes empty,
+                    # if it doesn't, something bad has happened
                     raise
 
                 content =  msg['content']
-
                 msg_type = msg['msg_type']
-                if msg_type == 'status':
-                    continue
-                elif msg_type == 'pyin':
-                    cell['prompt_number'] = content['execution_count']
-                    continue
-                elif msg_type == 'clear_output':
-                    outs = list()
-                    continue
 
                 out = NotebookNode(output_type=msg_type)
+                if 'execution_count' in content:
+                    cell['prompt_number'] = content['execution_count']
+                    out.prompt_number = content['execution_count']
 
-                if msg_type == 'stream':
+                if msg_type in ['status', 'pyin']:
+                    continue
+                elif msg_type == 'stream':
                     out.stream = content['name']
                     out.text = content['data']
                 elif msg_type in ('display_data', 'pyout'):
                     for mime, data in content['data'].iteritems():
-                        attr = mime.split('/')[-1].lower()
-                        attr = attr.replace('+xml', '').replace('plain','text')
+                        try:
+                            attr = MIME_MAP[mime]
+                        except KeyError:
+                            print 'unknown mime type:', mime
+                        
                         setattr(out, attr, data)
-                    if msg_type == 'pyout':
-                        out.prompt_number = content['execution_count']
                 elif msg_type == 'pyerr':
                     out.ename = content['ename']
                     out.evalue = content['evalue']
@@ -81,11 +98,30 @@ def run_notebook(nb_in, nb_out):
     
 
 def main():
+    # TODO: options:
+    # - error handling (halt?)
+    # - output:
+    #   - save to new ipynb
+    #   - save to same ipynb
+    #   - save HTML report (nbconvert)
+    #   - do not save, just run
+
+    log_format = '%(asctime)s %(message)s'
+    log_datefmt = '%m/%d/%Y %I:%M:%S %p'
+
     parser = argparse.ArgumentParser()
     parser.add_argument('input_file')
     parser.add_argument('output_file')
+    parser.add_argument('--quiet', '-q-', action='store_true')
     args = parser.parse_args()
+
+    if not args.quiet:
+        logging.basicConfig(level=logging.DEBUG, format=log_format, datefmt=log_datefmt)
+
+
     run_notebook(args.input_file, args.output_file)
+
+
 
 if __name__ == '__main__':
     main()
