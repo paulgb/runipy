@@ -38,6 +38,6 @@ To save the notebook output as a *new* notebook, run::
 
 To run a ``.ipynb`` file and genereate an ``HTML`` report, run::
 
-    $ runipynb MyNotebook.ipynb --report report.html
+    $ runipynb MyNotebook.ipynb --html report.html
 
 

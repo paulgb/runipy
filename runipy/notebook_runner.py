@@ -65,7 +65,6 @@ class NotebookRunner(object):
         while True:
             try:
                 msg = self.iopub.get_msg(timeout=1)
-                #print msg
                 if msg['msg_type'] == 'status':
                     if msg['content']['execution_state'] == 'idle':
                         break
@@ -86,13 +85,12 @@ class NotebookRunner(object):
             if msg_type in ['status', 'pyin']:
                 continue
             elif msg_type == 'stream':
-                print content
                 out.stream = content['name']
                 out.text = content['data']
             elif msg_type in ('display_data', 'pyout'):
                 for mime, data in content['data'].iteritems():
                     try:
-                        attr = MIME_MAP[mime]
+                        attr = self.MIME_MAP[mime]
                     except KeyError:
                         raise NotImplementedError('unhandled mime type: %s' % mime)
                     
