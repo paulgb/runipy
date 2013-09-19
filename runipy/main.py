@@ -26,6 +26,8 @@ def main():
             help='write notebook output back to original notebook')
     parser.add_argument('--html', nargs='?', default=False,
             help='output an HTML snapshot of the notebook')
+    parser.add_argument('--pylab', action='store_true',
+            help='start notebook with pylab enabled')
     args = parser.parse_args()
 
 
@@ -41,7 +43,7 @@ def main():
         logging.basicConfig(level=logging.DEBUG, format=log_format, datefmt=log_datefmt)
 
 
-    nb_runner = NotebookRunner(args.input_file)
+    nb_runner = NotebookRunner(args.input_file, args.pylab)
 
     exit_status = 0
     try:

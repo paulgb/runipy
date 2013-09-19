@@ -26,9 +26,12 @@ class NotebookRunner(object):
         'text/latex': 'latex',
     }
 
-    def __init__(self, nb_in):
+    def __init__(self, nb_in, pylab):
         km = KernelManager()
-        km.start_kernel()
+        if pylab:
+            km.start_kernel(extra_arguments=['--pylab=inline'])
+        else:
+            km.start_kernel()
 
         if platform.system() == 'Darwin':
             # There is sometimes a race condition where the first
@@ -99,6 +102,8 @@ class NotebookRunner(object):
                 out.ename = content['ename']
                 out.evalue = content['evalue']
                 out.traceback = content['traceback']
+
+                logging.log('\n'.join(content['traceback']))
             else:
                 raise NotImplementedError('unhandled iopub message: %s' % msg_type)
             outs.append(out)
