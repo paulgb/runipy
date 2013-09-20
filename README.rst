@@ -11,7 +11,7 @@ The IPython notebook provides an interactive interface to a Python interpreter.
   in one go, making it an easy way to automate reports when aesthetic control
   is not a priority.
 - **Data pipeline**: if you use IPython notebooks to create a data pipeline,
-  ``runipy`` lets you automate that pipeline without loosing the notebook
+  ``runipy`` lets you automate that pipeline without losing the notebook
   formatting.
 
 Installation
