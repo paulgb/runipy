@@ -103,7 +103,7 @@ class NotebookRunner(object):
                 out.evalue = content['evalue']
                 out.traceback = content['traceback']
 
-                logging.log('\n'.join(content['traceback']))
+                logging.error('\n'.join(content['traceback']))
             else:
                 raise NotImplementedError('unhandled iopub message: %s' % msg_type)
             outs.append(out)
