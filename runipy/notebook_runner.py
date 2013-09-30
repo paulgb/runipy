@@ -1,9 +1,10 @@
 
+from __future__ import print_function
+
 from Queue import Empty
 import platform
 from time import sleep
 import logging
-
 
 from IPython.nbformat.current import read, write, NotebookNode
 from IPython.kernel import KernelManager
@@ -90,6 +91,7 @@ class NotebookRunner(object):
             elif msg_type == 'stream':
                 out.stream = content['name']
                 out.text = content['data']
+                print(out.text, end='')
             elif msg_type in ('display_data', 'pyout'):
                 for mime, data in content['data'].iteritems():
                     try:
@@ -98,6 +100,7 @@ class NotebookRunner(object):
                         raise NotImplementedError('unhandled mime type: %s' % mime)
                     
                     setattr(out, attr, data)
+                print(data, end='')
             elif msg_type == 'pyerr':
                 out.ename = content['ename']
                 out.evalue = content['evalue']

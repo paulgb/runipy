@@ -12,6 +12,7 @@ def main():
     # - output:
     #   - save HTML report (nbconvert)
 
+    print 'ko'
     log_format = '%(asctime)s %(message)s'
     log_datefmt = '%m/%d/%Y %I:%M:%S %p'
 
