@@ -3,7 +3,7 @@ import argparse
 from sys import stderr
 import logging
 
-from notebook_runner import NotebookRunner, NotebookError
+from runipy.notebook_runner import NotebookRunner, NotebookError
 
 from IPython.nbconvert.exporters.html import HTMLExporter
 

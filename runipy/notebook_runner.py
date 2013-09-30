@@ -1,7 +1,12 @@
 
 from __future__ import print_function
 
-from Queue import Empty
+try:
+    # python 2
+    from Queue import Empty
+except:
+    # python 3
+    from queue import Empty
 import platform
 from time import sleep
 import logging
@@ -93,7 +98,7 @@ class NotebookRunner(object):
                 out.text = content['data']
                 print(out.text, end='')
             elif msg_type in ('display_data', 'pyout'):
-                for mime, data in content['data'].iteritems():
+                for mime, data in content['data'].items():
                     try:
                         attr = self.MIME_MAP[mime]
                     except KeyError:
@@ -137,3 +142,4 @@ class NotebookRunner(object):
     def save_notebook(self, nb_out):
         logging.info('Saving to %s', nb_out)
         write(self.nb, open(nb_out, 'w'), 'json')
+
