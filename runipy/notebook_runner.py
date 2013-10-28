@@ -32,12 +32,12 @@ class NotebookRunner(object):
         'text/latex': 'latex',
     }
 
-    def __init__(self, nb_in, pylab):
-        km = KernelManager()
+    def __init__(self, nb_in, pylab=False):
+        self.km = KernelManager()
         if pylab:
-            km.start_kernel(extra_arguments=['--pylab=inline'])
+            self.km.start_kernel(extra_arguments=['--pylab=inline'])
         else:
-            km.start_kernel()
+            self.km.start_kernel()
 
         if platform.system() == 'Darwin':
             # There is sometimes a race condition where the first
@@ -47,15 +47,18 @@ class NotebookRunner(object):
             # for a second.
             sleep(1)
 
-        kc = km.client()
-        kc.start_channels()
+        self.kc = self.km.client()
+        self.kc.start_channels()
 
-        self.shell = kc.shell_channel
-        self.iopub = kc.iopub_channel
+        self.shell = self.kc.shell_channel
+        self.iopub = self.kc.iopub_channel
 
         logging.info('Reading notebook %s', nb_in)
         self.nb = read(open(nb_in), 'json')
 
+    def __del__(self):
+        self.kc.stop_channels()
+        self.km.shutdown_kernel(now=True)
 
     def run_cell(self, cell):
         '''
