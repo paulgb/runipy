@@ -29,6 +29,8 @@ def main():
             help='output an HTML snapshot of the notebook')
     parser.add_argument('--pylab', action='store_true',
             help='start notebook with pylab enabled')
+    parser.add_argument('--skip-exceptions', '-s', action='store_true',
+            help='if an exception occurs in a cell, continue running the subsequent cells')
     args = parser.parse_args()
 
 
@@ -48,7 +50,7 @@ def main():
 
     exit_status = 0
     try:
-        nb_runner.run_notebook()
+        nb_runner.run_notebook(skip_exceptions=args.skip_exceptions)
     except NotebookError:
         exit_status = 1
 
