@@ -32,7 +32,7 @@ class NotebookRunner(object):
         'text/latex': 'latex',
     }
 
-    def __init__(self, nb_in, pylab):
+    def __init__(self, nb_in, pylab=False):
         km = KernelManager()
         if pylab:
             km.start_kernel(extra_arguments=['--pylab=inline'])
