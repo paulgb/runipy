@@ -21,7 +21,7 @@ class TestRunipy(unittest.TestCase):
             print notebook_file_base
             expected_file = path.join('tests', 'expected', notebook_file_base)
             runner = NotebookRunner(notebook_file)
-            runner.run_notebook()
+            runner.run_notebook(True)
             expected = read(open(expected_file), 'json')
             self.assert_notebooks_equal(expected, runner.nb)
 
