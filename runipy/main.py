@@ -2,6 +2,7 @@
 import argparse
 from sys import stderr
 import logging
+import codecs
 
 from runipy.notebook_runner import NotebookRunner, NotebookError
 
@@ -68,7 +69,7 @@ def main():
         logging.info('Saving HTML snapshot to %s' % args.html)
         exporter = HTMLExporter()
         output, resources = exporter.from_notebook_node(nb_runner.nb)
-        open(args.html, 'w').write(output)
+        codecs.open(args.html, 'w', encoding='utf-8').write(output)
 
     if exit_status != 0:
         logging.warning('Exiting with nonzero exit status')
