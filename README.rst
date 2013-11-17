@@ -21,8 +21,8 @@ The easiest way to install ``runipy`` is with ``pip``::
 
     $ pip install runipy
 
-Use
----
+Command-line use
+----------------
 
 To run a ``.ipynb`` file as a script, run::
 
@@ -39,6 +39,20 @@ To save the notebook output as a *new* notebook, run::
 To run a ``.ipynb`` file and genereate an ``HTML`` report, run::
 
     $ runipy MyNotebook.ipynb --html report.html
+
+Programmatic use
+----------------
+
+It is also possible to run IPython notebooks from Python, using::
+
+    from runipy.notebook_runner import NotebookRunner
+
+    r = NotebookRunner("MyNotebook.ipynb")
+    r.run_notebook()
+
+and you can enable ``pylab`` with::
+
+    r = NotebookRunner("MyNotebook.ipynb", pylab=True)
 
 Credit
 ------
