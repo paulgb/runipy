@@ -7,6 +7,7 @@ try:
 except:
     # python 3
     from queue import Empty
+
 import platform
 from time import sleep
 import logging
@@ -32,7 +33,7 @@ class NotebookRunner(object):
         'text/latex': 'latex',
     }
 
-    def __init__(self, nb_in, pylab):
+    def __init__(self, nb_in, pylab=False):
         km = KernelManager()
         if pylab:
             km.start_kernel(extra_arguments=['--pylab=inline'])
@@ -96,7 +97,7 @@ class NotebookRunner(object):
             elif msg_type == 'stream':
                 out.stream = content['name']
                 out.text = content['data']
-                print(out.text, end='')
+                #print(out.text, end='')
             elif msg_type in ('display_data', 'pyout'):
                 for mime, data in content['data'].items():
                     try:
@@ -105,7 +106,7 @@ class NotebookRunner(object):
                         raise NotImplementedError('unhandled mime type: %s' % mime)
                     
                     setattr(out, attr, data)
-                print(data, end='')
+                #print(data, end='')
             elif msg_type == 'pyerr':
                 out.ename = content['ename']
                 out.evalue = content['evalue']

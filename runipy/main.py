@@ -8,11 +8,6 @@ from runipy.notebook_runner import NotebookRunner, NotebookError
 from IPython.nbconvert.exporters.html import HTMLExporter
 
 def main():
-    # TODO: options:
-    # - output:
-    #   - save HTML report (nbconvert)
-
-    print 'ko'
     log_format = '%(asctime)s %(message)s'
     log_datefmt = '%m/%d/%Y %I:%M:%S %p'
 
