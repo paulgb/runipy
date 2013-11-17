@@ -104,7 +104,7 @@ class NotebookRunner(object):
                         attr = self.MIME_MAP[mime]
                     except KeyError:
                         raise NotImplementedError('unhandled mime type: %s' % mime)
-                    
+
                     setattr(out, attr, data)
                 #print(data, end='')
             elif msg_type == 'pyerr':
@@ -131,16 +131,21 @@ class NotebookRunner(object):
                     yield cell
 
 
-    def run_notebook(self):
+    def run_notebook(self, skip_exceptions=False):
         '''
         Run all the cells of a notebook in order and update
         the outputs in-place.
+
+        If ``skip_exceptions`` is set, then if exceptions occur in a cell, the
+        subsequent cells are run (by default, the notebook execution stops).
         '''
         for cell in self.iter_code_cells():
-            self.run_cell(cell)
+            try:
+                self.run_cell(cell)
+            except NotebookError:
+                if not skip_exceptions:
+                    raise
 
-    
     def save_notebook(self, nb_out):
         logging.info('Saving to %s', nb_out)
         write(self.nb, open(nb_out, 'w'), 'json')
-
