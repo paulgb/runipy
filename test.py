@@ -10,6 +10,7 @@ from runipy.notebook_runner import NotebookRunner
 class TestRunipy(unittest.TestCase):
     maxDiff = None
     def assert_notebooks_equal(self, expected, actual):
+        self.assertEquals(len(expected['worksheets'][0]['cells']), len(actual['worksheets'][0]['cells']))
         for expected_out, actual_out in zip(expected['worksheets'][0]['cells'],
                 actual['worksheets'][0]['cells']):
             self.assertEquals(dict(expected_out), dict(actual_out))
