@@ -1,4 +1,6 @@
 
+from __future__ import print_function
+
 import argparse
 from sys import stderr
 import logging
@@ -32,8 +34,8 @@ def main():
 
     if args.overwrite:
         if args.output_file is not None:
-            print >> stderr, 'Error: output_filename must not be provided if '\
-                    '--overwrite (-o) given'
+            print('Error: output_filename must not be provided if '
+                    '--overwrite (-o) given', file=stderr)
             exit(1)
         else:
             args.output_file = args.input_file
