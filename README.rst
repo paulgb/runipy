@@ -55,7 +55,7 @@ Then in the notebook, to access myvar::
     from os import environ
     myvar = environ['myvar']
 
-`environ` is just a `dict`, so you can use `.get()` to fall back on
+``environ`` is just a ``dict``, so you can use ``.get()`` to fall back on
 a default value::
 
     from os import environ
