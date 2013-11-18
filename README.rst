@@ -40,6 +40,27 @@ To run a ``.ipynb`` file and genereate an ``HTML`` report, run::
 
     $ runipy MyNotebook.ipynb --html report.html
 
+Passing Arguments
+-----------------
+
+You can pass arguments to the notebook through environment variables.
+The use of environment variables is OS- and shell- dependent, but in a
+typical UNIX-like environment they can be passed on the command line
+before the program name::
+
+    $ myvar=value runipy MyNotebook.ipynb
+
+Then in the notebook, to access myvar::
+
+    from os import environ
+    myvar = environ['myvar']
+
+`environ` is just a `dict`, so you can use `.get()` to fall back on
+a default value::
+
+    from os import environ
+    myvar = environ.get('myvar', 'default!')
+
 Programmatic use
 ----------------
 
