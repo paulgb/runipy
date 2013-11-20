@@ -8,6 +8,7 @@ import codecs
 
 from runipy.notebook_runner import NotebookRunner, NotebookError
 
+from IPython.config import Config
 from IPython.nbconvert.exporters.html import HTMLExporter
 
 def main():
@@ -25,6 +26,8 @@ def main():
             help='write notebook output back to original notebook')
     parser.add_argument('--html', nargs='?', default=False,
             help='output an HTML snapshot of the notebook')
+    parser.add_argument('--template', nargs='?', default=False,
+            help='template to use for HTML output')
     parser.add_argument('--pylab', action='store_true',
             help='start notebook with pylab enabled')
     parser.add_argument('--skip-exceptions', '-s', action='store_true',
@@ -65,8 +68,12 @@ def main():
             else:
                 args.html = args.input_file + '.ipynb'
 
+        if args.template is False:
+            exporter = HTMLExporter()
+        else:
+            exporter = HTMLExporter(config=Config({'HTMLExporter':{'default_template':args.template}}))
+
         logging.info('Saving HTML snapshot to %s' % args.html)
-        exporter = HTMLExporter()
         output, resources = exporter.from_notebook_node(nb_runner.nb)
         codecs.open(args.html, 'w', encoding='utf-8').write(output)
 
