@@ -1,4 +1,3 @@
-
 from __future__ import print_function
 
 try:
@@ -31,6 +30,7 @@ class NotebookRunner(object):
         'text/plain': 'text',
         'text/html': 'html',
         'text/latex': 'latex',
+        'application/javascript': 'html',
     }
 
     def __init__(self, nb_in, pylab=False):
