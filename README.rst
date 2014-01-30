@@ -8,8 +8,7 @@ The IPython notebook provides an interactive interface to a Python interpreter.
   document. ``runipy`` lets you run such programs directly, without first
   converting to a pure Python script.
 - **Report generation**: ``runipy`` can run the notebook and convert it into HTML
-  in one go, making it an easy way to automate reports when aesthetic control
-  is not a priority.
+  in one go, making it an easy way to automate reports.
 - **Data pipeline**: if you use IPython notebooks to create a data pipeline,
   ``runipy`` lets you automate that pipeline without losing the notebook
   formatting.
