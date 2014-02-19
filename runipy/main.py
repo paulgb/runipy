@@ -30,6 +30,8 @@ def main():
             help='template to use for HTML output')
     parser.add_argument('--pylab', action='store_true',
             help='start notebook with pylab enabled')
+    parser.add_argument('--matplotlib', action='store_true',
+            help='start notebook with matplotlib inlined')
     parser.add_argument('--skip-exceptions', '-s', action='store_true',
             help='if an exception occurs in a cell, continue running the subsequent cells')
     args = parser.parse_args()
@@ -47,7 +49,7 @@ def main():
         logging.basicConfig(level=logging.DEBUG, format=log_format, datefmt=log_datefmt)
 
 
-    nb_runner = NotebookRunner(args.input_file, args.pylab)
+    nb_runner = NotebookRunner(args.input_file, args.pylab, args.matplotlib)
 
     exit_status = 0
     try:
