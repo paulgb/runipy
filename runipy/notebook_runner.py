@@ -33,10 +33,12 @@ class NotebookRunner(object):
         'application/javascript': 'html',
     }
 
-    def __init__(self, nb_in, pylab=False):
+    def __init__(self, nb_in, pylab=False, mpl_inline=False):
         self.km = KernelManager()
         if pylab:
             self.km.start_kernel(extra_arguments=['--pylab=inline'])
+        elif mpl_inline:
+            self.km.start_kernel(extra_arguments=['--matplotlib=inline'])
         else:
             self.km.start_kernel()
 
