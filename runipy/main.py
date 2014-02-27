@@ -2,7 +2,7 @@
 from __future__ import print_function
 
 import argparse
-from sys import stderr
+from sys import stderr, exit
 import logging
 import codecs
 
