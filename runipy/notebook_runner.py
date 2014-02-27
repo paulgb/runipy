@@ -72,7 +72,7 @@ class NotebookRunner(object):
         reply = self.shell.get_msg()
         status = reply['content']['status']
         if status == 'error':
-            logging.info('Cell raised uncaught exception: %s', reply['content']['ename'])
+            logging.info('Cell raised uncaught exception: %s', ':'.join([reply['content']['ename'], reply['content']['evalue']]))
         else:
             logging.info('Cell returned')
 
