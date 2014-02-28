@@ -72,7 +72,7 @@ class NotebookRunner(object):
         reply = self.shell.get_msg()
         status = reply['content']['status']
         if status == 'error':
-            logging.info('Cell raised uncaught exception: %s', ':'.join([reply['content']['ename'], reply['content']['evalue']]))
+            logging.info('Cell raised uncaught exception: \n%s', '\n'.join(reply['content']['traceback']))
         else:
             logging.info('Cell returned')
 
@@ -154,3 +154,4 @@ class NotebookRunner(object):
     def save_notebook(self, nb_out):
         logging.info('Saving to %s', nb_out)
         write(self.nb, open(nb_out, 'w'), 'json')
+
