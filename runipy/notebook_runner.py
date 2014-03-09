@@ -31,6 +31,7 @@ class NotebookRunner(object):
         'text/html': 'html',
         'text/latex': 'latex',
         'application/javascript': 'html',
+        'image/svg+xml': 'svg',
     }
 
     def __init__(self, nb_in, pylab=False, mpl_inline=False):
