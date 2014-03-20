@@ -34,7 +34,7 @@ class NotebookRunner(object):
         'image/svg+xml': 'svg',
     }
 
-    def __init__(self, nb_in, pylab=False, mpl_inline=False):
+    def __init__(self, nb_in=None, pylab=False, mpl_inline=False, nb=None):
         self.km = KernelManager()
         if pylab:
             self.km.start_kernel(extra_arguments=['--pylab=inline'])
@@ -58,7 +58,11 @@ class NotebookRunner(object):
         self.iopub = self.kc.iopub_channel
 
         logging.info('Reading notebook %s', nb_in)
-        self.nb = read(open(nb_in), 'json')
+        
+        self.nb = nb
+        
+        if not self.nb:
+            self.nb = read(open(nb_in), 'json')
 
     def __del__(self):
         self.kc.stop_channels()
