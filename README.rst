@@ -82,5 +82,6 @@ Credit
 Portions of the code are based on code by `Min RK <https://github.com/minrk>`_
 
 Thanks to Kyle Kelley, Nitin Madnani, George Titsworth, Thomas Robitaille,
-and Andrey Tatarinov for patches, documentation fixes, and suggestions.
+Andrey Tatarinov, Matthew Brett, and Adam Haney for patches, documentation
+fixes, and suggestions.
 
