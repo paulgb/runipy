@@ -19,7 +19,9 @@ class TestRunipy(unittest.TestCase):
 
 
     def assert_notebooks_equal(self, expected, actual):
-        self.assertEquals(len(expected['worksheets'][0]['cells']), len(actual['worksheets'][0]['cells']))
+        self.assertEquals(len(expected['worksheets'][0]['cells']),
+                len(actual['worksheets'][0]['cells']))
+
         for expected_out, actual_out in zip(expected['worksheets'][0]['cells'],
                 actual['worksheets'][0]['cells']):
             for k in set(expected_out).union(actual_out):
@@ -37,7 +39,7 @@ class TestRunipy(unittest.TestCase):
             notebook_file_base = path.basename(notebook_file)
             print notebook_file_base
             expected_file = path.join('tests', 'expected', notebook_file_base)
-            runner = NotebookRunner(notebook_file)
+            runner = NotebookRunner(read(open(notebook_file), 'json'))
             runner.run_notebook(True)
             expected = read(open(expected_file), 'json')
             self.assert_notebooks_equal(expected, runner.nb)

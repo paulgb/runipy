@@ -66,13 +66,15 @@ Programmatic use
 It is also possible to run IPython notebooks from Python, using::
 
     from runipy.notebook_runner import NotebookRunner
+    from IPython.nbformat.current import read
 
-    r = NotebookRunner("MyNotebook.ipynb")
+    notebook = read(open("MyNotebook.ipynb"), 'json')
+    r = NotebookRunner(notebook)
     r.run_notebook()
 
 and you can enable ``pylab`` with::
 
-    r = NotebookRunner("MyNotebook.ipynb", pylab=True)
+    r = NotebookRunner(notebook, pylab=True)
 
 Credit
 ------

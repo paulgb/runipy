@@ -11,7 +11,7 @@ import platform
 from time import sleep
 import logging
 
-from IPython.nbformat.current import read, write, NotebookNode
+from IPython.nbformat.current import NotebookNode
 from IPython.kernel import KernelManager
 
 
@@ -34,7 +34,8 @@ class NotebookRunner(object):
         'image/svg+xml': 'svg',
     }
 
-    def __init__(self, nb_in=None, pylab=False, mpl_inline=False, nb=None):
+
+    def __init__(self, nb, pylab=False, mpl_inline=False):
         self.km = KernelManager()
         if pylab:
             self.km.start_kernel(extra_arguments=['--pylab=inline'])
@@ -56,17 +57,14 @@ class NotebookRunner(object):
 
         self.shell = self.kc.shell_channel
         self.iopub = self.kc.iopub_channel
-
-        logging.info('Reading notebook %s', nb_in)
         
         self.nb = nb
         
-        if not self.nb:
-            self.nb = read(open(nb_in), 'json')
 
     def __del__(self):
         self.kc.stop_channels()
         self.km.shutdown_kernel(now=True)
+
 
     def run_cell(self, cell):
         '''
@@ -131,6 +129,7 @@ class NotebookRunner(object):
         if status == 'error':
             raise NotebookError()
 
+
     def iter_code_cells(self):
         '''
         Iterate over the notebook cells containing code.
@@ -155,8 +154,4 @@ class NotebookRunner(object):
             except NotebookError:
                 if not skip_exceptions:
                     raise
-
-    def save_notebook(self, nb_out):
-        logging.info('Saving to %s', nb_out)
-        write(self.nb, open(nb_out, 'w'), 'json')
 

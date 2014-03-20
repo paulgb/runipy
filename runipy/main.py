@@ -7,6 +7,7 @@ import logging
 import codecs
 
 from runipy.notebook_runner import NotebookRunner, NotebookError
+from IPython.nbformat.current import read, write
 
 from IPython.config import Config
 from IPython.nbconvert.exporters.html import HTMLExporter
@@ -49,7 +50,9 @@ def main():
         logging.basicConfig(level=logging.DEBUG, format=log_format, datefmt=log_datefmt)
 
 
-    nb_runner = NotebookRunner(args.input_file, args.pylab, args.matplotlib)
+    logging.info('Reading notebook %s', args.input_file)
+    nb = read(open(args.input_file), 'json')
+    nb_runner = NotebookRunner(nb, args.pylab, args.matplotlib)
 
     exit_status = 0
     try:
@@ -58,7 +61,8 @@ def main():
         exit_status = 1
 
     if args.output_file:
-        nb_runner.save_notebook(args.output_file)
+        logging.info('Saving to %s', args.output_file)
+        write(nb_runner.nb, open(args.output_file, 'w'), 'json')
 
     if args.html is not False:
         if args.html is None:
@@ -73,7 +77,8 @@ def main():
         if args.template is False:
             exporter = HTMLExporter()
         else:
-            exporter = HTMLExporter(config=Config({'HTMLExporter':{'default_template':args.template}}))
+            exporter = HTMLExporter(
+                    config=Config({'HTMLExporter':{'default_template':args.template}}))
 
         logging.info('Saving HTML snapshot to %s' % args.html)
         output, resources = exporter.from_notebook_node(nb_runner.nb)
