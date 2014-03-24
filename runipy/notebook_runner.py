@@ -75,7 +75,9 @@ class NotebookRunner(object):
         reply = self.shell.get_msg()
         status = reply['content']['status']
         if status == 'error':
-            logging.info('Cell raised uncaught exception: \n%s', '\n'.join(reply['content']['traceback']))
+            traceback_text = 'Cell raised uncaught exception: \n' + \
+                '\n'.join(reply['content']['traceback'])
+            logging.info(traceback_text)
         else:
             logging.info('Cell returned')
 
@@ -127,7 +129,7 @@ class NotebookRunner(object):
         cell['outputs'] = outs
 
         if status == 'error':
-            raise NotebookError()
+            raise NotebookError(traceback_text)
 
 
     def iter_code_cells(self):
