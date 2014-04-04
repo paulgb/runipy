@@ -123,6 +123,9 @@ class NotebookRunner(object):
                 out.traceback = content['traceback']
 
                 #logging.error('\n'.join(content['traceback']))
+            elif msg_type == 'clear_output':
+                outs = list()
+                continue
             else:
                 raise NotImplementedError('unhandled iopub message: %s' % msg_type)
             outs.append(out)

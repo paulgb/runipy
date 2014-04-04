@@ -14,7 +14,7 @@ class TestRunipy(unittest.TestCase):
         if 'metadata' in cell:
             del cell['metadata']
         if 'text' in cell:
-            cell['text'] = re.sub('0x[0-9a-f]{9}', '<HEXADDR>', cell['text'])
+            cell['text'] = re.sub('0x[0-9a-f]{7,9}', '<HEXADDR>', cell['text'])
         return cell
 
 
