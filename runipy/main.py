@@ -2,7 +2,7 @@
 from __future__ import print_function
 
 import argparse
-from sys import stderr, exit
+from sys import stderr, stdout, exit
 import logging
 import codecs
 
@@ -35,6 +35,8 @@ def main():
             help='start notebook with matplotlib inlined')
     parser.add_argument('--skip-exceptions', '-s', action='store_true',
             help='if an exception occurs in a cell, continue running the subsequent cells')
+    parser.add_argument('--stdout', action='store_true',
+            help='print notebook to stdout (or use - as output_file')
     args = parser.parse_args()
 
 
@@ -60,9 +62,12 @@ def main():
     except NotebookError:
         exit_status = 1
 
-    if args.output_file:
+    if args.output_file and args.output_file != '-':
         logging.info('Saving to %s', args.output_file)
         write(nb_runner.nb, open(args.output_file, 'w'), 'json')
+
+    if args.stdout or args.output_file == '-':
+        write(nb_runner.nb, stdout, 'json')
 
     if args.html is not False:
         if args.html is None:
