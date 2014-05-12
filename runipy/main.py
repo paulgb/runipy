@@ -2,7 +2,7 @@
 from __future__ import print_function
 
 import argparse
-from sys import stderr, exit
+from sys import stderr, stdout, stdin, exit
 import logging
 import codecs
 
@@ -17,8 +17,8 @@ def main():
     log_datefmt = '%m/%d/%Y %I:%M:%S %p'
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('input_file',
-            help='.ipynb file to run')
+    parser.add_argument('input_file', nargs='?',
+            help='.ipynb file to run (or stdin)')
     parser.add_argument('output_file', nargs='?',
             help='.ipynb file to save cell output to')
     parser.add_argument('--quiet', '-q', action='store_true',
@@ -35,6 +35,10 @@ def main():
             help='start notebook with matplotlib inlined')
     parser.add_argument('--skip-exceptions', '-s', action='store_true',
             help='if an exception occurs in a cell, continue running the subsequent cells')
+    parser.add_argument('--stdout', action='store_true',
+            help='print notebook to stdout (or use - as output_file')
+    parser.add_argument('--stdin', action='store_true',
+            help='read notebook from stdin (or use - as input_file)')
     args = parser.parse_args()
 
 
@@ -49,9 +53,18 @@ def main():
     if not args.quiet:
         logging.basicConfig(level=logging.DEBUG, format=log_format, datefmt=log_datefmt)
 
+    if args.input_file == '-' or args.stdin:  # force stdin
+        payload = stdin
+    elif not args.input_file and stdin.isatty():  # no force, empty stdin
+        parser.print_help()
+        exit()
+    elif not args.input_file:  # no file -> default stdin
+        payload = stdin
+    else:  # must have specified normal input_file
+        payload = open(args.input_file)
 
-    logging.info('Reading notebook %s', args.input_file)
-    nb = read(open(args.input_file), 'json')
+    logging.info('Reading notebook %s', payload.name)
+    nb = read(payload, 'json')
     nb_runner = NotebookRunner(nb, args.pylab, args.matplotlib)
 
     exit_status = 0
@@ -60,9 +73,12 @@ def main():
     except NotebookError:
         exit_status = 1
 
-    if args.output_file:
+    if args.output_file and args.output_file != '-':
         logging.info('Saving to %s', args.output_file)
         write(nb_runner.nb, open(args.output_file, 'w'), 'json')
+
+    if args.stdout or args.output_file == '-':
+        write(nb_runner.nb, stdout, 'json')
 
     if args.html is not False:
         if args.html is None:

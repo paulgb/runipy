@@ -60,6 +60,16 @@ a default value::
     from os import environ
     myvar = environ.get('myvar', 'default!')
 
+Stdin / Stdout
+--------------
+
+``runipy`` can read stdin and stdout and sit in a UNIX pipeline::
+
+    $ runipy --stdout < MyNotebook.ipynb > OutputNotebook.ipynb
+
+    $ cat MyNotebook.ipynb | runipy --stdout > OutputNotebook.ipynb
+
+
 Programmatic use
 ----------------
 
