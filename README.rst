@@ -75,6 +75,11 @@ It is also possible to run IPython notebooks from Python, using::
 and you can enable ``pylab`` with::
 
     r = NotebookRunner(notebook, pylab=True)
+    
+The notebook is stored in the object and can be saved using::
+
+    from IPython.nbformat.current import write
+    write(r.nb, open("MyOtherNotebook.ipynb", 'w'), 'json')
 
 Credit
 ------
