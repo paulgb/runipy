@@ -96,6 +96,15 @@ class NotebookRunner(object):
             content = msg['content']
             msg_type = msg['msg_type']
 
+            # IPython 3.0.0-dev writes pyerr/pyout in the notebook format but uses
+            # error/execute_result in the message spec. This does the translation
+            # needed for tests to pass with IPython 3.0.0-dev
+            notebook3_format_conversions = {
+                'error': 'pyerr',
+                'execute_result': 'pyout'
+            }
+            msg_type = notebook3_format_conversions.get(msg_type, msg_type)
+
             out = NotebookNode(output_type=msg_type)
 
             if 'execution_count' in content:
@@ -108,7 +117,7 @@ class NotebookRunner(object):
                 out.stream = content['name']
                 out.text = content['data']
                 #print(out.text, end='')
-            elif msg_type in ('display_data', 'pyout', 'execute_result'):
+            elif msg_type in ('display_data', 'pyout'):
                 for mime, data in content['data'].items():
                     try:
                         attr = self.MIME_MAP[mime]
@@ -117,7 +126,7 @@ class NotebookRunner(object):
 
                     setattr(out, attr, data)
                 #print(data, end='')
-            elif msg_type in ('pyerr', 'error'):
+            elif msg_type == 'pyerr':
                 out.ename = content['ename']
                 out.evalue = content['evalue']
                 out.traceback = content['traceback']

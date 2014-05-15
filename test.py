@@ -1,7 +1,7 @@
 
 import unittest
 from glob import glob
-from os import path
+from os import path, chdir
 import re
 
 from IPython.nbformat.current import read
@@ -9,6 +9,8 @@ from IPython.nbformat.current import read
 from runipy.notebook_runner import NotebookRunner
 
 class TestRunipy(unittest.TestCase):
+    maxDiff = 100000
+
     def prepare_cell(self, cell):
         cell = dict(cell)
         if 'metadata' in cell:
@@ -30,15 +32,14 @@ class TestRunipy(unittest.TestCase):
                     for e, a in zip(expected_out[k], actual_out[k]):
                         e = self.prepare_cell(e)
                         a = self.prepare_cell(a)
-                        self.assertEquals(e, a)
+                        self.assertEquals(a, e)
                     
 
     def testRunNotebooks(self):
-        input_glob = path.join('tests', 'input', '*.ipynb')
-        for notebook_file in glob(input_glob):
-            notebook_file_base = path.basename(notebook_file)
-            print notebook_file_base
-            expected_file = path.join('tests', 'expected', notebook_file_base)
+        chdir(path.join('tests', 'input'))
+        for notebook_file in glob('*.ipynb'):
+            print notebook_file
+            expected_file = path.join('..', 'expected', notebook_file)
             runner = NotebookRunner(read(open(notebook_file), 'json'))
             runner.run_notebook(True)
             expected = read(open(expected_file), 'json')
