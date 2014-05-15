@@ -39,8 +39,10 @@ class NotebookRunner(object):
         self.km = KernelManager()
         if pylab:
             self.km.start_kernel(extra_arguments=['--pylab=inline'])
+            logging.warn('--pylab is deprecated and will be removed in a future version')
         elif mpl_inline:
             self.km.start_kernel(extra_arguments=['--matplotlib=inline'])
+            logging.warn('--matplotlib is deprecated and will be removed in a future version')
         else:
             self.km.start_kernel()
 
