@@ -102,13 +102,13 @@ class NotebookRunner(object):
                 cell['prompt_number'] = content['execution_count']
                 out.prompt_number = content['execution_count']
 
-            if msg_type in ['status', 'pyin']:
+            if msg_type in ('status', 'pyin', 'execute_input'):
                 continue
             elif msg_type == 'stream':
                 out.stream = content['name']
                 out.text = content['data']
                 #print(out.text, end='')
-            elif msg_type in ('display_data', 'pyout'):
+            elif msg_type in ('display_data', 'pyout', 'execute_result'):
                 for mime, data in content['data'].items():
                     try:
                         attr = self.MIME_MAP[mime]
@@ -117,7 +117,7 @@ class NotebookRunner(object):
 
                     setattr(out, attr, data)
                 #print(data, end='')
-            elif msg_type == 'pyerr':
+            elif msg_type in ('pyerr', 'error'):
                 out.ename = content['ename']
                 out.evalue = content['evalue']
                 out.traceback = content['traceback']
