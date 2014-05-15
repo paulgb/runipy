@@ -16,7 +16,10 @@ class TestRunipy(unittest.TestCase):
         if 'metadata' in cell:
             del cell['metadata']
         if 'text' in cell:
-            cell['text'] = re.sub('0x[0-9a-f]{7,9}', '<HEXADDR>', cell['text'])
+            # don't match object's id; also happens to fix incompatible
+            # results between IPython2 and IPython3 (which prints "object" instead
+            # of "at [id]"
+            cell['text'] = re.sub('at 0x[0-9a-f]{7,9}', 'object', cell['text'])
         return cell
 
 
