@@ -10,6 +10,7 @@ except:
 import platform
 from time import sleep
 import logging
+import os
 
 from IPython.nbformat.current import NotebookNode
 from IPython.kernel import KernelManager
@@ -35,14 +36,24 @@ class NotebookRunner(object):
     }
 
 
-    def __init__(self, nb, pylab=False, mpl_inline=False):
+    def __init__(self, nb, pylab=False, mpl_inline=False, working_dir = None):
         self.km = KernelManager()
+
+        args = []
+
         if pylab:
-            self.km.start_kernel(extra_arguments=['--pylab=inline'])
+            args.append('--pylab=inline')
         elif mpl_inline:
-            self.km.start_kernel(extra_arguments=['--matplotlib=inline'])
-        else:
-            self.km.start_kernel()
+            args.append('--matplotlib=inline')
+
+        cwd = os.getcwd()
+
+        if working_dir:
+            os.chdir(working_dir)
+
+        self.km.start_kernel(extra_arguments = args)
+        
+        os.chdir(cwd)
 
         if platform.system() == 'Darwin':
             # There is sometimes a race condition where the first

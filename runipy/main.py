@@ -3,6 +3,7 @@ from __future__ import print_function
 
 import argparse
 from sys import stderr, stdout, stdin, exit
+import os.path
 import logging
 import codecs
 
@@ -53,6 +54,8 @@ def main():
     if not args.quiet:
         logging.basicConfig(level=logging.DEBUG, format=log_format, datefmt=log_datefmt)
 
+    working_dir = None
+
     if args.input_file == '-' or args.stdin:  # force stdin
         payload = stdin
     elif not args.input_file and stdin.isatty():  # no force, empty stdin
@@ -62,10 +65,11 @@ def main():
         payload = stdin
     else:  # must have specified normal input_file
         payload = open(args.input_file)
+        working_dir = os.path.dirname(args.input_file)
 
     logging.info('Reading notebook %s', payload.name)
     nb = read(payload, 'json')
-    nb_runner = NotebookRunner(nb, args.pylab, args.matplotlib)
+    nb_runner = NotebookRunner(nb, args.pylab, args.matplotlib, working_dir)
 
     exit_status = 0
     try:
