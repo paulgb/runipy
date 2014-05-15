@@ -13,6 +13,13 @@ The IPython notebook provides an interactive interface to a Python interpreter.
   ``runipy`` lets you automate that pipeline without losing the notebook
   formatting.
 
+Requirements
+------------
+
+``runipy`` supports IPython versions 2.x and 3.x.
+
+As of ``runipy`` 0.1.0, IPython version 1.x may not work.
+
 Installation
 ------------
 
