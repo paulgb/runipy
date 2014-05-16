@@ -40,6 +40,8 @@ def main():
             help='print notebook to stdout (or use - as output_file')
     parser.add_argument('--stdin', action='store_true',
             help='read notebook from stdin (or use - as input_file)')
+    parser.add_argument('--no-chdir', action='store_true',
+            help="do not change directory to notebook's at kernel startup")
     args = parser.parse_args()
 
 
@@ -66,6 +68,9 @@ def main():
     else:  # must have specified normal input_file
         payload = open(args.input_file)
         working_dir = os.path.dirname(args.input_file)
+
+    if args.no_chdir:
+        working_dir = None
 
     logging.info('Reading notebook %s', payload.name)
     nb = read(payload, 'json')
