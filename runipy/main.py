@@ -14,7 +14,7 @@ from IPython.config import Config
 from IPython.nbconvert.exporters.html import HTMLExporter
 
 def main():
-    log_format = '%(asctime)s %(message)s'
+    log_format = '%(asctime)s %(levelname)s: %(message)s'
     log_datefmt = '%m/%d/%Y %I:%M:%S %p'
 
     parser = argparse.ArgumentParser()
@@ -54,7 +54,7 @@ def main():
             args.output_file = args.input_file
 
     if not args.quiet:
-        logging.basicConfig(level=logging.DEBUG, format=log_format, datefmt=log_datefmt)
+        logging.basicConfig(level=logging.INFO, format=log_format, datefmt=log_datefmt)
 
     working_dir = None
 
@@ -88,6 +88,7 @@ def main():
 
     if args.stdout or args.output_file == '-':
         write(nb_runner.nb, stdout, 'json')
+        print()
 
     if args.html is not False:
         if args.html is None:

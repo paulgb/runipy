@@ -43,8 +43,10 @@ class NotebookRunner(object):
 
         if pylab:
             args.append('--pylab=inline')
+            logging.warn('--pylab is deprecated and will be removed in a future version')
         elif mpl_inline:
             args.append('--matplotlib=inline')
+            logging.warn('--matplotlib is deprecated and will be removed in a future version')
 
         cwd = os.getcwd()
 
@@ -107,13 +109,22 @@ class NotebookRunner(object):
             content = msg['content']
             msg_type = msg['msg_type']
 
+            # IPython 3.0.0-dev writes pyerr/pyout in the notebook format but uses
+            # error/execute_result in the message spec. This does the translation
+            # needed for tests to pass with IPython 3.0.0-dev
+            notebook3_format_conversions = {
+                'error': 'pyerr',
+                'execute_result': 'pyout'
+            }
+            msg_type = notebook3_format_conversions.get(msg_type, msg_type)
+
             out = NotebookNode(output_type=msg_type)
 
             if 'execution_count' in content:
                 cell['prompt_number'] = content['execution_count']
                 out.prompt_number = content['execution_count']
 
-            if msg_type in ['status', 'pyin']:
+            if msg_type in ('status', 'pyin', 'execute_input'):
                 continue
             elif msg_type == 'stream':
                 out.stream = content['name']
