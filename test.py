@@ -20,6 +20,8 @@ class TestRunipy(unittest.TestCase):
             # results between IPython2 and IPython3 (which prints "object" instead
             # of "at [id]"
             cell['text'] = re.sub('at 0x[0-9a-f]{7,9}', 'object', cell['text'])
+        if 'traceback' in cell:
+            cell['traceback'] = [re.sub('\x1b\\[[01];\\d\\dm', '', line) for line in cell['traceback']]
         return cell
 
 
@@ -39,11 +41,12 @@ class TestRunipy(unittest.TestCase):
                     
 
     def testRunNotebooks(self):
-        chdir(path.join('tests', 'input'))
-        for notebook_file in glob('*.ipynb'):
+        notebook_dir = path.join('tests', 'input')
+        for notebook_path in glob(path.join(notebook_dir, '*.ipynb')):
+            notebook_file = path.basename(notebook_path)
             print notebook_file
-            expected_file = path.join('..', 'expected', notebook_file)
-            runner = NotebookRunner(read(open(notebook_file), 'json'))
+            expected_file = path.join('tests', 'expected', notebook_file)
+            runner = NotebookRunner(read(open(notebook_path), 'json'), working_dir=notebook_dir)
             runner.run_notebook(True)
             expected = read(open(expected_file), 'json')
             self.assert_notebooks_equal(expected, runner.nb)
