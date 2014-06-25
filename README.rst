@@ -98,6 +98,14 @@ The notebook is stored in the object and can be saved using::
     from IPython.nbformat.current import write
     write(r.nb, open("MyOtherNotebook.ipynb", 'w'), 'json')
 
+`run_notebook()` takes two optional arguments. The first, `skip_exceptions`, 
+takes a boolean value (`False` by default). If `True`, exceptions will be ignored
+and the notebook will continue to execute cells after encountering an exception.
+The second argument is `progress_callback`, which must be either `None` or a
+function that takes one argument. This function is called after execution of
+each cell with the 0-based index of the cell just evaluated. This can be useful
+for tracking progress of long-running notebooks.
+
 Credit
 ------
 

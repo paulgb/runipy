@@ -167,7 +167,7 @@ class NotebookRunner(object):
                     yield cell
 
 
-    def run_notebook(self, skip_exceptions=False, execute_cell_no_callback=None):
+    def run_notebook(self, skip_exceptions=False, progress_callback=None):
         '''
         Run all the cells of a notebook in order and update
         the outputs in-place.
@@ -175,21 +175,19 @@ class NotebookRunner(object):
         If ``skip_exceptions`` is set, then if exceptions occur in a cell, the
         subsequent cells are run (by default, the notebook execution stops).
         '''
-        for n, cell in enumerate( self.iter_code_cells() ):
+        for i, cell in enumerate(self.iter_code_cells()):
             try:
                 self.run_cell(cell)
             except NotebookError:
                 if not skip_exceptions:
                     raise
-            if execute_cell_no_callback:
-                execute_cell_no_callback(n)
+            if progress_callback:
+                progress_callback(i)
 
 
     def count_code_cells(self):
         '''
         Return the number of code cells in the notebook
         '''
-        for n, cell in enumerate( self.iter_code_cells() ):
-            pass
-        return n
+        return sum(1 for _ in self.iter_code_cells())
         
