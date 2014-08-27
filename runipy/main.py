@@ -42,6 +42,8 @@ def main():
             help='read notebook from stdin (or use - as input_file)')
     parser.add_argument('--no-chdir', action='store_true',
             help="do not change directory to notebook's at kernel startup")
+    parser.add_argument('--profile-dir',
+            help="set the profile location directly")
     args = parser.parse_args()
 
 
@@ -74,7 +76,7 @@ def main():
 
     logging.info('Reading notebook %s', payload.name)
     nb = read(payload, 'json')
-    nb_runner = NotebookRunner(nb, args.pylab, args.matplotlib, working_dir)
+    nb_runner = NotebookRunner(nb, args.pylab, args.matplotlib, args.profile_dir, working_dir)
 
     exit_status = 0
     try:
