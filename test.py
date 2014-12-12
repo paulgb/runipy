@@ -22,6 +22,8 @@ class TestRunipy(unittest.TestCase):
             cell['text'] = re.sub('at 0x[0-9a-f]{7,9}', 'object', cell['text'])
         if 'traceback' in cell:
             cell['traceback'] = [re.sub('\x1b\\[[01];\\d\\dm', '', line) for line in cell['traceback']]
+            # rejoin lines, so it's one string to compare
+            cell['traceback'] = u'\n'.join(cell['traceback'])
         return cell
 
 
