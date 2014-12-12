@@ -149,7 +149,12 @@ class NotebookRunner(object):
                 continue
             elif msg_type == 'stream':
                 out.stream = content['name']
-                out.text = content['data']
+                # in msgspec 5, this is name, text
+                # in msgspec 4, this is name, data
+                if 'text' in content:
+                    out.text = content['text']
+                else:
+                    out.text = content['data']
                 #print(out.text, end='')
             elif msg_type in ('display_data', 'pyout'):
                 for mime, data in content['data'].items():
