@@ -104,7 +104,7 @@ def main():
             exporter = HTMLExporter()
         else:
             exporter = HTMLExporter(
-                    config=Config({'HTMLExporter':{'default_template':args.template}}))
+                    config=Config({'HTMLExporter':{'template_file':args.template}}))
 
         logging.info('Saving HTML snapshot to %s' % args.html)
         output, resources = exporter.from_notebook_node(nb_runner.nb)
