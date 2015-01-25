@@ -42,7 +42,7 @@ To save the notebook output as a *new* notebook, run::
 
     $ runipy MyNotebook.ipynb OutputNotebook.ipynb
 
-To run a ``.ipynb`` file and genereate an ``HTML`` report, run::
+To run a ``.ipynb`` file and generate an ``HTML`` report, run::
 
     $ runipy MyNotebook.ipynb --html report.html
 
