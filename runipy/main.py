@@ -103,7 +103,7 @@ def main():
             if args.input_file.endswith('.ipynb'):
                 args.html = args.input_file[:-6] + '.html'
             else:
-                args.html = args.input_file + '.ipynb'
+                args.html = args.input_file + '.html'
 
         if args.template is False:
             exporter = HTMLExporter()
@@ -114,6 +114,8 @@ def main():
         logging.info('Saving HTML snapshot to %s' % args.html)
         output, resources = exporter.from_notebook_node(nb_runner.nb)
         codecs.open(args.html, 'w', encoding='utf-8').write(output)
+
+    nb_runner.shutdown_kernel()
 
     if exit_status != 0:
         logging.warning('Exiting with nonzero exit status')

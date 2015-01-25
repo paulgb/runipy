@@ -77,7 +77,8 @@ class NotebookRunner(object):
         self.nb = nb
         
 
-    def __del__(self):
+    def shutdown_kernel(self):
+        logging.info('Shutdown kernel')
         self.kc.stop_channels()
         self.km.shutdown_kernel(now=True)
 
