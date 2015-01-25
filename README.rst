@@ -114,6 +114,6 @@ Portions of the code are based on code by `Min RK <https://github.com/minrk>`_
 Thanks to Kyle Kelley, Nitin Madnani, George Titsworth, Thomas Robitaille,
 Andrey Tatarinov, Matthew Brett, Adam Haney, Nathan Goldbaum, Adam Ginsburg,
 Gustavo Bragança, Tobias Brandt, Andrea Zonca, Aaron O'Leary, Simon Guillot,
-Fernando Correia, and Simon Conseil for patches, documentation fixes, and
-suggestions.
+Fernando Correia, Takashi Nishibayashi, and Simon Conseil for patches, 
+documentation fixes, and suggestions.
 
