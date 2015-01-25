@@ -6,6 +6,7 @@ from sys import stderr, stdout, stdin, exit
 import os.path
 import logging
 import codecs
+import runipy
 
 from runipy.notebook_runner import NotebookRunner, NotebookError
 from IPython.nbformat.current import read, write
@@ -18,6 +19,8 @@ def main():
     log_datefmt = '%m/%d/%Y %I:%M:%S %p'
 
     parser = argparse.ArgumentParser()
+    parser.add_argument('--version', '-v', action='version', version=runipy.__version__,
+            help='print version information')
     parser.add_argument('input_file', nargs='?',
             help='.ipynb file to run (or stdin)')
     parser.add_argument('output_file', nargs='?',
