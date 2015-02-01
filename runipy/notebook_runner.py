@@ -70,10 +70,12 @@ class NotebookRunner(object):
 
         self.kc = self.km.client()
         self.kc.start_channels()
+        try:
+            self.kc.wait_for_ready()
+        except AttributeError:
+            # IPython < 3
+            self._wait_for_ready_backport()
 
-        self.shell = self.kc.shell_channel
-        self.iopub = self.kc.iopub_channel
-        
         self.nb = nb
         
 
@@ -81,15 +83,30 @@ class NotebookRunner(object):
         logging.info('Shutdown kernel')
         self.kc.stop_channels()
         self.km.shutdown_kernel(now=True)
+    
+    def _wait_for_ready_backport(self):
+        """Backport BlockingKernelClient.wait_for_ready from IPython 3"""
+        # Wait for kernel info reply on shell channel
+        self.kc.kernel_info()
+        while True:
+            msg = self.kc.get_shell_msg(block=True, timeout=30)
+            if msg['msg_type'] == 'kernel_info_reply':
+                break
 
+        # Flush IOPub channel
+        while True:
+            try:
+                msg = self.kc.get_iopub_msg(block=True, timeout=0.2)
+            except Empty:
+                break
 
     def run_cell(self, cell):
         '''
         Run a notebook cell and update the output of that cell in-place.
         '''
         logging.info('Running cell:\n%s\n', cell.input)
-        self.shell.execute(cell.input)
-        reply = self.shell.get_msg()
+        self.kc.execute(cell.input)
+        reply = self.kc.get_shell_msg()
         status = reply['content']['status']
         if status == 'error':
             traceback_text = 'Cell raised uncaught exception: \n' + \
@@ -101,7 +118,7 @@ class NotebookRunner(object):
         outs = list()
         while True:
             try:
-                msg = self.iopub.get_msg(timeout=1)
+                msg = self.kc.get_iopub_msg(timeout=1)
                 if msg['msg_type'] == 'status':
                     if msg['content']['execution_state'] == 'idle':
                         break
@@ -132,7 +149,12 @@ class NotebookRunner(object):
                 continue
             elif msg_type == 'stream':
                 out.stream = content['name']
-                out.text = content['data']
+                # in msgspec 5, this is name, text
+                # in msgspec 4, this is name, data
+                if 'text' in content:
+                    out.text = content['text']
+                else:
+                    out.text = content['data']
                 #print(out.text, end='')
             elif msg_type in ('display_data', 'pyout'):
                 for mime, data in content['data'].items():
