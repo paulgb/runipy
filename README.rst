@@ -16,7 +16,8 @@ The IPython notebook provides an interactive interface to a Python interpreter.
 Requirements
 ------------
 
-``runipy`` currently supports IPython versions 2.3.x, with patches welcome for 3.x.
+``runipy`` currently supports IPython versions 2.3.x and the current development
+version of 3.x.
 
 Installation
 ------------
