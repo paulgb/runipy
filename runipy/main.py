@@ -77,9 +77,14 @@ def main():
     if args.no_chdir:
         working_dir = None
 
+    if args.profile_dir:
+        profile_dir = os.path.expanduser(args.profile_dir)
+    else:
+        profile_dir = None
+
     logging.info('Reading notebook %s', payload.name)
     nb = read(payload, 'json')
-    nb_runner = NotebookRunner(nb, args.pylab, args.matplotlib, args.profile_dir, working_dir)
+    nb_runner = NotebookRunner(nb, args.pylab, args.matplotlib, profile_dir, working_dir)
 
     exit_status = 0
     try:
