@@ -183,7 +183,9 @@ class NotebookRunner(object):
                 outs = list()
                 continue
             else:
-                raise NotImplementedError('unhandled iopub message: %s' % msg_type)
+                raise NotImplementedError(
+                    'unhandled iopub message: %s' % msg_type
+                )
             outs.append(out)
         cell['outputs'] = outs
 
