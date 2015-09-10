@@ -34,7 +34,6 @@ install:
    - echo "ipython ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
    - echo "ipython-notebook ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
    - conda install ipython-notebook
-   - conda install numpy scipy matplotlib h5py
    # Install runipy.
    - python setup.py install
    # Install coverage and coveralls to generate and submit test coverage results for coveralls.io.
