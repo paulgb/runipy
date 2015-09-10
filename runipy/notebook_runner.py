@@ -36,7 +36,13 @@ class NotebookRunner(object):
     }
 
 
-    def __init__(self, nb, pylab=False, mpl_inline=False, profile_dir=None, working_dir=None):
+    def __init__(
+            self,
+            nb,
+            pylab=False,
+            mpl_inline=False,
+            profile_dir=None,
+            working_dir=None):
         self.km = KernelManager()
 
         args = []
