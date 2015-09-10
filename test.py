@@ -26,6 +26,18 @@ class TestRunipy(unittest.TestCase):
             cell['traceback'] = [re.sub('\x1b\\[[01];\\d\\dm', '', line) for line in cell['traceback']]
             # rejoin lines, so it's one string to compare
             cell['traceback'] = u'\n'.join(cell['traceback'])
+            # Python 3 describes a ZeroDivisionError differently.
+            # We change the Python 2 wording to the Python 3 wording.
+            cell['evalue'] = re.sub(
+                'integer division or modulo by zero',
+                'division by zero',
+                cell['evalue']
+            )
+            cell['traceback'] = re.sub(
+                'integer division or modulo by zero',
+                'division by zero',
+                cell['traceback']
+            )
         return cell
 
     def assert_notebooks_equal(self, expected, actual):
