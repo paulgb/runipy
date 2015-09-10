@@ -59,7 +59,9 @@ def main():
             args.output_file = args.input_file
 
     if not args.quiet:
-        logging.basicConfig(level=logging.INFO, format=log_format, datefmt=log_datefmt)
+        logging.basicConfig(
+            level=logging.INFO, format=log_format, datefmt=log_datefmt
+        )
 
     working_dir = None
 
