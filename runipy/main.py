@@ -128,7 +128,8 @@ def main():
 
     if args.output_file and args.output_file != '-':
         logging.info('Saving to %s', args.output_file)
-        write(nb_runner.nb, open(args.output_file, 'w'), 'json')
+        with open(args.output_file, 'w') as output_filehandle:
+            write(nb_runner.nb, output_filehandle, 'json')
 
     if args.stdout or args.output_file == '-':
         write(nb_runner.nb, stdout, 'json')
