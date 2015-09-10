@@ -1,4 +1,3 @@
-
 import unittest
 from glob import glob
 from os import path
