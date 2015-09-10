@@ -112,9 +112,9 @@ class NotebookRunner(object):
                 break
 
     def run_cell(self, cell):
-        '''
+        """
         Run a notebook cell and update the output of that cell in-place.
-        '''
+        """
         logging.info('Running cell:\n%s\n', cell.input)
         self.kc.execute(cell.input)
         reply = self.kc.get_shell_msg()
@@ -201,9 +201,9 @@ class NotebookRunner(object):
 
 
     def iter_code_cells(self):
-        '''
+        """
         Iterate over the notebook cells containing code.
-        '''
+        """
         for ws in self.nb.worksheets:
             for cell in ws.cells:
                 if cell.cell_type == 'code':
@@ -211,13 +211,13 @@ class NotebookRunner(object):
 
 
     def run_notebook(self, skip_exceptions=False, progress_callback=None):
-        '''
+        """
         Run all the cells of a notebook in order and update
         the outputs in-place.
 
         If ``skip_exceptions`` is set, then if exceptions occur in a cell, the
         subsequent cells are run (by default, the notebook execution stops).
-        '''
+        """
         for i, cell in enumerate(self.iter_code_cells()):
             try:
                 self.run_cell(cell)
@@ -229,7 +229,7 @@ class NotebookRunner(object):
 
 
     def count_code_cells(self):
-        '''
+        """
         Return the number of code cells in the notebook
-        '''
+        """
         return sum(1 for _ in self.iter_code_cells())
