@@ -41,18 +41,18 @@ class TestRunipy(unittest.TestCase):
         return cell
 
     def assert_notebooks_equal(self, expected, actual):
-        self.assertEquals(len(expected['worksheets'][0]['cells']),
+        self.assertEqual(len(expected['worksheets'][0]['cells']),
                 len(actual['worksheets'][0]['cells']))
 
         for expected_out, actual_out in zip(expected['worksheets'][0]['cells'],
                 actual['worksheets'][0]['cells']):
             for k in set(expected_out).union(actual_out):
                 if k == 'outputs':
-                    self.assertEquals(len(expected_out[k]), len(actual_out[k]))
+                    self.assertEqual(len(expected_out[k]), len(actual_out[k]))
                     for e, a in zip(expected_out[k], actual_out[k]):
                         e = self.prepare_cell(e)
                         a = self.prepare_cell(a)
-                        self.assertEquals(a, e)
+                        self.assertEqual(a, e)
 
     def testRunNotebooks(self):
         notebook_dir = path.join('tests', 'input')
