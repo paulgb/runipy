@@ -43,7 +43,9 @@ class NotebookRunner(object):
 
         if pylab:
             args.append('--pylab=inline')
-            logging.warn('--pylab is deprecated and will be removed in a future version')
+            logging.warn(
+                '--pylab is deprecated and will be removed in a future version'
+            )
         elif mpl_inline:
             args.append('--matplotlib=inline')
             logging.warn('--matplotlib is deprecated and will be removed in a future version')
