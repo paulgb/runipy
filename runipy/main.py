@@ -19,34 +19,64 @@ def main():
     log_datefmt = '%m/%d/%Y %I:%M:%S %p'
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--version', '-v', action='version', version=runipy.__version__,
-            help='print version information')
-    parser.add_argument('input_file', nargs='?',
-            help='.ipynb file to run (or stdin)')
-    parser.add_argument('output_file', nargs='?',
-            help='.ipynb file to save cell output to')
-    parser.add_argument('--quiet', '-q', action='store_true',
-            help='don\'t print anything unless things go wrong')
-    parser.add_argument('--overwrite', '-o', action='store_true',
-            help='write notebook output back to original notebook')
-    parser.add_argument('--html', nargs='?', default=False,
-            help='output an HTML snapshot of the notebook')
-    parser.add_argument('--template', nargs='?', default=False,
-            help='template to use for HTML output')
-    parser.add_argument('--pylab', action='store_true',
-            help='start notebook with pylab enabled')
-    parser.add_argument('--matplotlib', action='store_true',
-            help='start notebook with matplotlib inlined')
-    parser.add_argument('--skip-exceptions', '-s', action='store_true',
-            help='if an exception occurs in a cell, continue running the subsequent cells')
-    parser.add_argument('--stdout', action='store_true',
-            help='print notebook to stdout (or use - as output_file')
-    parser.add_argument('--stdin', action='store_true',
-            help='read notebook from stdin (or use - as input_file)')
-    parser.add_argument('--no-chdir', action='store_true',
-            help="do not change directory to notebook's at kernel startup")
-    parser.add_argument('--profile-dir',
-            help="set the profile location directly")
+    parser.add_argument(
+        '--version', '-v', action='version',
+        version=runipy.__version__,
+        help='print version information'
+    )
+    parser.add_argument(
+        'input_file', nargs='?',
+        help='.ipynb file to run (or stdin)'
+    )
+    parser.add_argument(
+        'output_file', nargs='?',
+        help='.ipynb file to save cell output to'
+    )
+    parser.add_argument(
+        '--quiet', '-q', action='store_true',
+        help='don\'t print anything unless things go wrong'
+    )
+    parser.add_argument(
+        '--overwrite', '-o', action='store_true',
+        help='write notebook output back to original notebook'
+    )
+    parser.add_argument(
+        '--html', nargs='?', default=False,
+        help='output an HTML snapshot of the notebook'
+    )
+    parser.add_argument(
+        '--template', nargs='?', default=False,
+        help='template to use for HTML output'
+    )
+    parser.add_argument(
+        '--pylab', action='store_true',
+        help='start notebook with pylab enabled'
+    )
+    parser.add_argument(
+        '--matplotlib', action='store_true',
+        help='start notebook with matplotlib inlined'
+    )
+    parser.add_argument(
+        '--skip-exceptions', '-s', action='store_true',
+        help='if an exception occurs in a cell,' +
+             ' continue running the subsequent cells'
+    )
+    parser.add_argument(
+        '--stdout', action='store_true',
+        help='print notebook to stdout (or use - as output_file'
+    )
+    parser.add_argument(
+        '--stdin', action='store_true',
+        help='read notebook from stdin (or use - as input_file)'
+    )
+    parser.add_argument(
+        '--no-chdir', action='store_true',
+        help="do not change directory to notebook's at kernel startup"
+    )
+    parser.add_argument(
+        '--profile-dir',
+        help="set the profile location directly"
+    )
     args = parser.parse_args()
 
 
