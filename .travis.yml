@@ -26,13 +26,12 @@ install:
    - cd $TRAVIS_REPO_SLUG
    - VERSION=`python setup.py --version`
    - echo $VERSION
-   - python setup.py bdist_conda
    # Create the test environment and install dependencies.
    - conda create --use-local -n testenv python=$PYTHON_VERSION
    - touch $HOME/miniconda/envs/testenv/conda-meta/pinned
    - echo "ipython ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
    - echo "ipython-notebook ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
-   - conda install --use-local -n testenv runipy==$VERSION
+   - python setup.py install
    - source activate testenv
    # Install other dependencies.
    - conda install numpy scipy matplotlib h5py
