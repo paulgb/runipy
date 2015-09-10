@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import unittest
 from glob import glob
 from os import path
@@ -44,7 +46,7 @@ class TestRunipy(unittest.TestCase):
         notebook_dir = path.join('tests', 'input')
         for notebook_path in glob(path.join(notebook_dir, '*.ipynb')):
             notebook_file = path.basename(notebook_path)
-            print notebook_file
+            print(notebook_file)
             expected_file = path.join('tests', 'expected', notebook_file)
             notebook = ""
             with open(notebook_path) as notebook_file:
