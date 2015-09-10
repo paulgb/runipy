@@ -167,7 +167,9 @@ class NotebookRunner(object):
                     try:
                         attr = self.MIME_MAP[mime]
                     except KeyError:
-                        raise NotImplementedError('unhandled mime type: %s' % mime)
+                        raise NotImplementedError(
+                            'unhandled mime type: %s' % mime
+                        )
 
                     setattr(out, attr, data)
                 #print(data, end='')
