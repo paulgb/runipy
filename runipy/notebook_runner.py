@@ -48,7 +48,10 @@ class NotebookRunner(object):
             )
         elif mpl_inline:
             args.append('--matplotlib=inline')
-            logging.warn('--matplotlib is deprecated and will be removed in a future version')
+            logging.warn(
+                '--matplotlib is deprecated and' +
+                ' will be removed in a future version'
+            )
 
         if profile_dir:
             args.append('--profile-dir=%s' % os.path.abspath(profile_dir))
