@@ -119,6 +119,7 @@ class NotebookRunner(object):
         self.kc.execute(cell.input)
         reply = self.kc.get_shell_msg()
         status = reply['content']['status']
+        traceback_text = ''
         if status == 'error':
             traceback_text = 'Cell raised uncaught exception: \n' + \
                 '\n'.join(reply['content']['traceback'])
