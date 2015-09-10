@@ -1,7 +1,7 @@
 
 import unittest
 from glob import glob
-from os import path, chdir
+from os import path
 import re
 
 from IPython.nbformat.current import read
