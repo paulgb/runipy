@@ -28,13 +28,15 @@ install:
    - echo $VERSION
    # Create the test environment and install dependencies.
    - conda create --use-local -n testenv python=$PYTHON_VERSION
+   - source activate testenv
+   # Install dependencies.
    - touch $HOME/miniconda/envs/testenv/conda-meta/pinned
    - echo "ipython ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
    - echo "ipython-notebook ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
-   - python setup.py install
-   - source activate testenv
-   # Install other dependencies.
+   - conda install ipython-notebook
    - conda install numpy scipy matplotlib h5py
+   # Install runipy.
+   - python setup.py install
    # Install coverage and coveralls to generate and submit test coverage results for coveralls.io.
    - echo "coverage 3.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
    - conda install coverage
