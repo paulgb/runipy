@@ -1,0 +1,37 @@
+language: python
+python:
+   - "2.7"
+before_install:
+   # Move out of git directory to build root.
+   - deactivate
+   - cd ../..
+   - pwd
+install:
+   # Download and configure conda.
+   - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+   - bash miniconda.sh -b -p $HOME/miniconda
+   - export PATH="$HOME/miniconda/bin:$PATH"
+   - conda config --set always_yes yes
+   - conda config --set show_channel_urls True
+   - source activate root
+   # Install basic conda dependencies.
+   - conda update --all
+   - conda install conda-build
+   # Build the conda package for runipy.
+   - cd $TRAVIS_REPO_SLUG
+   - VERSION=`python setup.py --version`
+   - echo $VERSION
+   - python setup.py bdist_conda
+   # Create the test environment and install dependencies.
+   - conda create --use-local -n testenv python=$TRAVIS_PYTHON_VERSION runipy==$VERSION
+   - source activate testenv
+   # Install other dependencies.
+   - conda install numpy scipy matplotlib h5py
+   # Clean up downloads as there are quite a few and they waste space/memory.
+   - conda clean -tipsy
+   - rm -rfv $HOME/.cache/pip
+script:
+   # Run tests.
+   - python setup.py test --verbose
+# Use container format for TravisCI.
+sudo: false
