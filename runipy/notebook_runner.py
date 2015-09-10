@@ -136,9 +136,9 @@ class NotebookRunner(object):
             content = msg['content']
             msg_type = msg['msg_type']
 
-            # IPython 3.0.0-dev writes pyerr/pyout in the notebook format but uses
-            # error/execute_result in the message spec. This does the translation
-            # needed for tests to pass with IPython 3.0.0-dev
+            # IPython 3.0.0-dev writes pyerr/pyout in the notebook format
+            # but uses error/execute_result in the message spec. This does the
+            # translation needed for tests to pass with IPython 3.0.0-dev
             notebook3_format_conversions = {
                 'error': 'pyerr',
                 'execute_result': 'pyout'
