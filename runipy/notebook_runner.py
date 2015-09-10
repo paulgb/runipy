@@ -35,7 +35,6 @@ class NotebookRunner(object):
         'image/svg+xml': 'svg',
     }
 
-
     def __init__(
             self,
             nb,
@@ -88,7 +87,6 @@ class NotebookRunner(object):
             self._wait_for_ready_backport()
 
         self.nb = nb
-        
 
     def shutdown_kernel(self):
         logging.info('Shutdown kernel')
@@ -199,7 +197,6 @@ class NotebookRunner(object):
         if status == 'error':
             raise NotebookError(traceback_text)
 
-
     def iter_code_cells(self):
         """
         Iterate over the notebook cells containing code.
@@ -208,7 +205,6 @@ class NotebookRunner(object):
             for cell in ws.cells:
                 if cell.cell_type == 'code':
                     yield cell
-
 
     def run_notebook(self, skip_exceptions=False, progress_callback=None):
         """
@@ -226,7 +222,6 @@ class NotebookRunner(object):
                     raise
             if progress_callback:
                 progress_callback(i)
-
 
     def count_code_cells(self):
         """
