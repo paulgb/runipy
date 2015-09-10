@@ -14,6 +14,7 @@ from IPython.nbformat.current import read, write
 from IPython.config import Config
 from IPython.nbconvert.exporters.html import HTMLExporter
 
+
 def main():
     log_format = '%(asctime)s %(levelname)s: %(message)s'
     log_datefmt = '%m/%d/%Y %I:%M:%S %p'
