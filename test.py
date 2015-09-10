@@ -48,9 +48,14 @@ class TestRunipy(unittest.TestCase):
             notebook_file = path.basename(notebook_path)
             print notebook_file
             expected_file = path.join('tests', 'expected', notebook_file)
-            runner = NotebookRunner(read(open(notebook_path), 'json'), working_dir=notebook_dir)
+            notebook = ""
+            with open(notebook_path) as notebook_file:
+                notebook = read(notebook_file, 'json')
+            runner = NotebookRunner(notebook, working_dir=notebook_dir)
             runner.run_notebook(True)
-            expected = read(open(expected_file), 'json')
+            expected = ""
+            with open(expected_file) as notebook_file:
+                expected = read(notebook_file, 'json')
             self.assert_notebooks_equal(expected, runner.nb)
 
 
