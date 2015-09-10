@@ -4,6 +4,9 @@ python:
    - "3.4"
    - "3.3"
    - "2.7"
+env:
+   - IPYTHON_VERSION=3
+   - IPYTHON_VERSION=2
 before_install:
    # Move out of git directory to build root.
    - deactivate
@@ -28,7 +31,11 @@ install:
    - echo $VERSION
    - python setup.py bdist_conda
    # Create the test environment and install dependencies.
-   - conda create --use-local -n testenv python=$TRAVIS_PYTHON_VERSION runipy==$VERSION
+   - conda create --use-local -n testenv python=$TRAVIS_PYTHON_VERSION
+   - touch $HOME/miniconda/envs/testenv/conda-meta/pinned
+   - echo "ipython ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
+   - echo "ipython-notebook ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
+   - conda install --use-local -n testenv runipy==$VERSION
    - source activate testenv
    # Install other dependencies.
    - conda install numpy scipy matplotlib h5py
