@@ -128,7 +128,8 @@ class NotebookRunner(object):
                     if msg['content']['execution_state'] == 'idle':
                         break
             except Empty:
-                # execution state should return to idle before the queue becomes empty,
+                # execution state should return to idle
+                # before the queue becomes empty,
                 # if it doesn't, something bad has happened
                 raise
 
