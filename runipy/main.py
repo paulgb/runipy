@@ -150,7 +150,7 @@ def main():
             exporter = HTMLExporter(
                 config=Config({
                     'HTMLExporter': {
-                        'template_file':args.template,
+                        'template_file': args.template,
                         'template_path': ['.', '/']
                     }
                 })
