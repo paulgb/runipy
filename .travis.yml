@@ -18,6 +18,10 @@ install:
    - conda config --set show_channel_urls True
    - source activate root
    - conda update --all
+   # Fix root environment to have the correct Python version.
+   - touch $HOME/miniconda/conda-meta/pinned
+   - echo "python ${PYTHON_VERSION}.*" >> $HOME/miniconda/conda-meta/pinned
+   - conda install python=$PYTHON_VERSION
    # Install basic conda dependencies.
    - touch $HOME/miniconda/conda-meta/pinned
    - echo "conda-build ==1.16.0" >> $HOME/miniconda/conda-meta/pinned
