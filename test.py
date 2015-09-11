@@ -7,6 +7,7 @@ from IPython.nbformat.current import read
 
 from runipy.notebook_runner import NotebookRunner
 
+
 class TestRunipy(unittest.TestCase):
     maxDiff = 100000
 
