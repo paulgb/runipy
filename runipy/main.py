@@ -79,7 +79,6 @@ def main():
     )
     args = parser.parse_args()
 
-
     if args.overwrite:
         if args.output_file is not None:
             print('Error: output_filename must not be provided if '
