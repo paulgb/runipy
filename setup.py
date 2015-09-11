@@ -2,7 +2,6 @@ from setuptools import setup
 
 import versioneer
 
-import runipy
 
 setup(name='runipy',
       version=versioneer.get_version(),
