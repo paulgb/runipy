@@ -82,7 +82,7 @@ def main():
     if args.overwrite:
         if args.output_file is not None:
             print('Error: output_filename must not be provided if '
-                    '--overwrite (-o) given', file=stderr)
+                  '--overwrite (-o) given', file=stderr)
             exit(1)
         else:
             args.output_file = args.input_file
