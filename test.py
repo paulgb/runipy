@@ -26,7 +26,6 @@ class TestRunipy(unittest.TestCase):
             cell['traceback'] = u'\n'.join(cell['traceback'])
         return cell
 
-
     def assert_notebooks_equal(self, expected, actual):
         self.assertEquals(len(expected['worksheets'][0]['cells']),
                 len(actual['worksheets'][0]['cells']))
@@ -40,7 +39,6 @@ class TestRunipy(unittest.TestCase):
                         e = self.prepare_cell(e)
                         a = self.prepare_cell(a)
                         self.assertEquals(a, e)
-                    
 
     def testRunNotebooks(self):
         notebook_dir = path.join('tests', 'input')
