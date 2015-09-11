@@ -17,10 +17,10 @@ install:
    - conda config --set always_yes yes
    - conda config --set show_channel_urls True
    - source activate root
+   - conda update --all
    # Install basic conda dependencies.
    - touch $HOME/miniconda/conda-meta/pinned
    - echo "conda-build ==1.16.0" >> $HOME/miniconda/conda-meta/pinned
-   - conda update --all
    - conda install conda-build
    # Build the conda package for runipy.
    - cd $TRAVIS_REPO_SLUG
