@@ -92,7 +92,7 @@ class NotebookRunner(object):
         logging.info('Shutdown kernel')
         self.kc.stop_channels()
         self.km.shutdown_kernel(now=True)
-    
+
     def _wait_for_ready_backport(self):
         """Backport BlockingKernelClient.wait_for_ready from IPython 3"""
         # Wait for kernel info reply on shell channel
