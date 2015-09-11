@@ -67,7 +67,7 @@ class NotebookRunner(object):
             os.chdir(working_dir)
 
         self.km.start_kernel(extra_arguments=args)
-        
+
         os.chdir(cwd)
 
         if platform.system() == 'Darwin':
