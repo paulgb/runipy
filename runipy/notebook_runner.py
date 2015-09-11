@@ -66,7 +66,7 @@ class NotebookRunner(object):
         if working_dir:
             os.chdir(working_dir)
 
-        self.km.start_kernel(extra_arguments = args)
+        self.km.start_kernel(extra_arguments=args)
         
         os.chdir(cwd)
 
