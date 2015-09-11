@@ -48,3 +48,7 @@ script:
    - coverage report
 # Use container format for TravisCI.
 sudo: false
+notifications:
+  email:
+    on_success: always
+    on_failure: always
