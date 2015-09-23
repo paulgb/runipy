@@ -1,9 +1,10 @@
 from setuptools import setup
 
-import runipy
+import versioneer
+
 
 setup(name='runipy',
-      version=runipy.__version__,
+      version=versioneer.get_version(),
       description='Run IPython notebooks from the command line',
       url='https://github.com/paulgb/runipy',
       author='Paul Butler',
@@ -23,4 +24,5 @@ setup(name='runipy',
               'runipy = runipy.main:main'
           ]
       },
+      cmdclass=versioneer.get_cmdclass()
 )

@@ -1,2 +1,4 @@
 include README.rst
 include LICENSE
+include versioneer.py
+include runipy/_version.py
