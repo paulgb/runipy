@@ -35,18 +35,28 @@ class NotebookRunner(object):
         'image/svg+xml': 'svg',
     }
 
-
-    def __init__(self, nb, pylab=False, mpl_inline=False, profile_dir=None, working_dir=None):
+    def __init__(
+            self,
+            nb,
+            pylab=False,
+            mpl_inline=False,
+            profile_dir=None,
+            working_dir=None):
         self.km = KernelManager()
 
         args = []
 
         if pylab:
             args.append('--pylab=inline')
-            logging.warn('--pylab is deprecated and will be removed in a future version')
+            logging.warn(
+                '--pylab is deprecated and will be removed in a future version'
+            )
         elif mpl_inline:
             args.append('--matplotlib=inline')
-            logging.warn('--matplotlib is deprecated and will be removed in a future version')
+            logging.warn(
+                '--matplotlib is deprecated and' +
+                ' will be removed in a future version'
+            )
 
         if profile_dir:
             args.append('--profile-dir=%s' % os.path.abspath(profile_dir))
@@ -56,8 +66,8 @@ class NotebookRunner(object):
         if working_dir:
             os.chdir(working_dir)
 
-        self.km.start_kernel(extra_arguments = args)
-        
+        self.km.start_kernel(extra_arguments=args)
+
         os.chdir(cwd)
 
         if platform.system() == 'Darwin':
@@ -77,13 +87,12 @@ class NotebookRunner(object):
             self._wait_for_ready_backport()
 
         self.nb = nb
-        
 
     def shutdown_kernel(self):
         logging.info('Shutdown kernel')
         self.kc.stop_channels()
         self.km.shutdown_kernel(now=True)
-    
+
     def _wait_for_ready_backport(self):
         """Backport BlockingKernelClient.wait_for_ready from IPython 3"""
         # Wait for kernel info reply on shell channel
@@ -101,13 +110,14 @@ class NotebookRunner(object):
                 break
 
     def run_cell(self, cell):
-        '''
+        """
         Run a notebook cell and update the output of that cell in-place.
-        '''
+        """
         logging.info('Running cell:\n%s\n', cell.input)
         self.kc.execute(cell.input)
         reply = self.kc.get_shell_msg()
         status = reply['content']['status']
+        traceback_text = ''
         if status == 'error':
             traceback_text = 'Cell raised uncaught exception: \n' + \
                 '\n'.join(reply['content']['traceback'])
@@ -123,16 +133,17 @@ class NotebookRunner(object):
                     if msg['content']['execution_state'] == 'idle':
                         break
             except Empty:
-                # execution state should return to idle before the queue becomes empty,
+                # execution state should return to idle
+                # before the queue becomes empty,
                 # if it doesn't, something bad has happened
                 raise
 
             content = msg['content']
             msg_type = msg['msg_type']
 
-            # IPython 3.0.0-dev writes pyerr/pyout in the notebook format but uses
-            # error/execute_result in the message spec. This does the translation
-            # needed for tests to pass with IPython 3.0.0-dev
+            # IPython 3.0.0-dev writes pyerr/pyout in the notebook format
+            # but uses error/execute_result in the message spec. This does the
+            # translation needed for tests to pass with IPython 3.0.0-dev
             notebook3_format_conversions = {
                 'error': 'pyerr',
                 'execute_result': 'pyout'
@@ -161,7 +172,9 @@ class NotebookRunner(object):
                     try:
                         attr = self.MIME_MAP[mime]
                     except KeyError:
-                        raise NotImplementedError('unhandled mime type: %s' % mime)
+                        raise NotImplementedError(
+                            'unhandled mime type: %s' % mime
+                        )
 
                     setattr(out, attr, data)
                 #print(data, end='')
@@ -175,32 +188,32 @@ class NotebookRunner(object):
                 outs = list()
                 continue
             else:
-                raise NotImplementedError('unhandled iopub message: %s' % msg_type)
+                raise NotImplementedError(
+                    'unhandled iopub message: %s' % msg_type
+                )
             outs.append(out)
         cell['outputs'] = outs
 
         if status == 'error':
             raise NotebookError(traceback_text)
 
-
     def iter_code_cells(self):
-        '''
+        """
         Iterate over the notebook cells containing code.
-        '''
+        """
         for ws in self.nb.worksheets:
             for cell in ws.cells:
                 if cell.cell_type == 'code':
                     yield cell
 
-
     def run_notebook(self, skip_exceptions=False, progress_callback=None):
-        '''
+        """
         Run all the cells of a notebook in order and update
         the outputs in-place.
 
         If ``skip_exceptions`` is set, then if exceptions occur in a cell, the
         subsequent cells are run (by default, the notebook execution stops).
-        '''
+        """
         for i, cell in enumerate(self.iter_code_cells()):
             try:
                 self.run_cell(cell)
@@ -210,10 +223,8 @@ class NotebookRunner(object):
             if progress_callback:
                 progress_callback(i)
 
-
     def count_code_cells(self):
-        '''
+        """
         Return the number of code cells in the notebook
-        '''
+        """
         return sum(1 for _ in self.iter_code_cells())
-        

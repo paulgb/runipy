@@ -1,12 +1,12 @@
-
 import unittest
 from glob import glob
-from os import path, chdir
+from os import path
 import re
 
 from IPython.nbformat.current import read
 
 from runipy.notebook_runner import NotebookRunner
+
 
 class TestRunipy(unittest.TestCase):
     maxDiff = 100000
@@ -17,15 +17,14 @@ class TestRunipy(unittest.TestCase):
             del cell['metadata']
         if 'text' in cell:
             # don't match object's id; also happens to fix incompatible
-            # results between IPython2 and IPython3 (which prints "object" instead
-            # of "at [id]"
+            # results between IPython2 and IPython3 (which prints "object"
+            # instead of "at [id]"
             cell['text'] = re.sub('at 0x[0-9a-f]{7,9}', 'object', cell['text'])
         if 'traceback' in cell:
             cell['traceback'] = [re.sub('\x1b\\[[01];\\d\\dm', '', line) for line in cell['traceback']]
             # rejoin lines, so it's one string to compare
             cell['traceback'] = u'\n'.join(cell['traceback'])
         return cell
-
 
     def assert_notebooks_equal(self, expected, actual):
         self.assertEquals(len(expected['worksheets'][0]['cells']),
@@ -40,7 +39,6 @@ class TestRunipy(unittest.TestCase):
                         e = self.prepare_cell(e)
                         a = self.prepare_cell(a)
                         self.assertEquals(a, e)
-                    
 
     def testRunNotebooks(self):
         notebook_dir = path.join('tests', 'input')
@@ -48,12 +46,16 @@ class TestRunipy(unittest.TestCase):
             notebook_file = path.basename(notebook_path)
             print notebook_file
             expected_file = path.join('tests', 'expected', notebook_file)
-            runner = NotebookRunner(read(open(notebook_path), 'json'), working_dir=notebook_dir)
+            notebook = ""
+            with open(notebook_path) as notebook_file:
+                notebook = read(notebook_file, 'json')
+            runner = NotebookRunner(notebook, working_dir=notebook_dir)
             runner.run_notebook(True)
-            expected = read(open(expected_file), 'json')
+            expected = ""
+            with open(expected_file) as notebook_file:
+                expected = read(notebook_file, 'json')
             self.assert_notebooks_equal(expected, runner.nb)
 
 
 if __name__ == '__main__':
     unittest.main()
-
