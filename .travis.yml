@@ -55,5 +55,10 @@ script:
 sudo: false
 notifications:
   email:
+    on_success: never
+    on_failure: never
+  webhooks:
     on_success: always
     on_failure: always
+    urls:
+      - https://webhooks.gitter.im/e/ddb94a08ad824369f3bf
