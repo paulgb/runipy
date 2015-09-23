@@ -1,4 +1,4 @@
-|License| |Version| |Gitter|
+|Travis Build Status| |License| |Version| |Gitter|
 
 --------------
 
@@ -120,6 +120,8 @@ Gustavo Bragança, Tobias Brandt, Andrea Zonca, Aaron O'Leary, Simon Guillot,
 Fernando Correia, Takashi Nishibayashi, Simon Conseil, and Thomas French
 for patches, documentation fixes, and suggestions.
 
+.. |Travis Build Status| image:: https://travis-ci.org/paulgb/runipy.svg?branch=master
+    :target: https://travis-ci.org/paulgb/runipy
 
 .. |License| image:: https://img.shields.io/badge/license-BSD-blue.svg
    :alt: BSD License
