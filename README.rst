@@ -1,9 +1,9 @@
+|Gitter|
+
+--------------
+
 ``runipy``: run IPython as a script
 =====================================
-
-.. image:: https://badges.gitter.im/Join%20Chat.svg
-   :alt: Join the chat at https://gitter.im/paulgb/runipy
-   :target: https://gitter.im/paulgb/runipy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 
 The IPython notebook provides an interactive interface to a Python interpreter.
 
@@ -120,3 +120,7 @@ Gustavo Bragança, Tobias Brandt, Andrea Zonca, Aaron O'Leary, Simon Guillot,
 Fernando Correia, Takashi Nishibayashi, Simon Conseil, and Thomas French
 for patches, documentation fixes, and suggestions.
 
+
+.. |Gitter| image:: https://badges.gitter.im/Join%20Chat.svg
+   :alt: Join the chat at https://gitter.im/paulgb/runipy
+   :target: https://gitter.im/paulgb/runipy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
