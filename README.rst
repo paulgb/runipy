@@ -1,6 +1,10 @@
 ``runipy``: run IPython as a script
 =====================================
 
+.. image:: https://badges.gitter.im/Join%20Chat.svg
+   :alt: Join the chat at https://gitter.im/paulgb/runipy
+   :target: https://gitter.im/paulgb/runipy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+
 The IPython notebook provides an interactive interface to a Python interpreter.
 
 - **Literate programming**: the IPython notebook is an ideal format for
