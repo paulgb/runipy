@@ -1,4 +1,4 @@
-|Gitter|
+|License| |Version| |Gitter|
 
 --------------
 
@@ -120,6 +120,13 @@ Gustavo Bragança, Tobias Brandt, Andrea Zonca, Aaron O'Leary, Simon Guillot,
 Fernando Correia, Takashi Nishibayashi, Simon Conseil, and Thomas French
 for patches, documentation fixes, and suggestions.
 
+
+.. |License| image:: https://img.shields.io/badge/license-BSD-blue.svg
+   :alt: BSD License
+   :target: https://raw.githubusercontent.com/paulgb/runipy/master/LICENSE
+
+.. |Version| image:: https://img.shields.io/pypi/v/runipy.svg
+   :target: https://pypi.python.org/pypi/runipy
 
 .. |Gitter| image:: https://badges.gitter.im/Join%20Chat.svg
    :alt: Join the chat at https://gitter.im/paulgb/runipy
