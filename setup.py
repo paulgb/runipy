@@ -24,5 +24,6 @@ setup(name='runipy',
               'runipy = runipy.main:main'
           ]
       },
-      cmdclass=versioneer.get_cmdclass()
+      cmdclass=versioneer.get_cmdclass(),
+      test_suite="test_runipy"
 )
