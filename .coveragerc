@@ -2,3 +2,10 @@
 branch = True
 erase = True
 package = runipy
+[report]
+omit =
+    */python?.?/*
+    */site-packages/*
+    *tests/*
+    */versioneer.py
+    */_version.py
