@@ -1,4 +1,4 @@
-|Travis Build Status| |License| |Version| |Gitter|
+|Travis Build Status| |Coveralls| |License| |Version| |Gitter|
 
 --------------
 
@@ -122,6 +122,9 @@ for patches, documentation fixes, and suggestions.
 
 .. |Travis Build Status| image:: https://travis-ci.org/paulgb/runipy.svg?branch=master
     :target: https://travis-ci.org/paulgb/runipy
+
+.. |Coveralls| image:: https://coveralls.io/repos/paulgb/runipy/badge.svg?branch=master&service=github
+  :target: https://coveralls.io/github/paulgb/runipy?branch=master
 
 .. |License| image:: https://img.shields.io/badge/license-BSD-blue.svg
    :alt: BSD License
