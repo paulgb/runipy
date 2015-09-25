@@ -27,11 +27,15 @@ install:
    - source activate testenv
    # Install other dependencies.
    - conda install numpy scipy matplotlib h5py
+   # Install coverage and coveralls to generate and submit test coverage results for coveralls.io.
+   - echo "coverage 3.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
+   - conda install coverage
    # Clean up downloads as there are quite a few and they waste space/memory.
    - conda clean -tipsy
    - rm -rfv $HOME/.cache/pip
 script:
    # Run tests.
-   - python setup.py test --verbose
+   - coverage run setup.py test --verbose
+   - coverage report
 # Use container format for TravisCI.
 sudo: false
