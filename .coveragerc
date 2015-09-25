@@ -1,0 +1,20 @@
+[run]
+branch = True
+erase = True
+package = runipy
+[report]
+exclude_lines =
+    # Ignore continue statement in code as it can't be detected as covered
+    # due to an optimization by the Python interpreter. See coverage issue
+    # ( https://bitbucket.org/ned/coveragepy/issue/198/continue-marked-as-not-covered )
+    # and Python issue ( http://bugs.python.org/issue2506 ).
+    continue
+
+    # Ignore coverage of code that requires the module to be executed.
+    if __name__ == .__main__.:
+omit =
+    */python?.?/*
+    */site-packages/*
+    *tests/*
+    */versioneer.py
+    */_version.py
