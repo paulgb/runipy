@@ -9,6 +9,9 @@ exclude_lines =
     # ( https://bitbucket.org/ned/coveragepy/issue/198/continue-marked-as-not-covered )
     # and Python issue ( http://bugs.python.org/issue2506 ).
     continue
+
+    # Ignore coverage of code that requires the module to be executed.
+    if __name__ == .__main__.:
 omit =
     */python?.?/*
     */site-packages/*
