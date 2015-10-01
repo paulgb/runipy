@@ -44,6 +44,7 @@ install:
    # Install coverage and coveralls to generate and submit test coverage results for coveralls.io.
    - echo "coverage 3.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
    - conda install coverage
+   - pip install coveralls
    # Clean up downloads as there are quite a few and they waste space/memory.
    - conda clean -tipsy
    - rm -rfv $HOME/.cache/pip
@@ -52,6 +53,9 @@ script:
    - coverage run setup.py test --verbose
    - coverage report
 # Use container format for TravisCI.
+after_success:
+   # Submit results to coveralls.io.
+   - coveralls
 sudo: false
 notifications:
   email:
