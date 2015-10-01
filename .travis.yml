@@ -1,0 +1,64 @@
+language: cpp
+env:
+   - PYTHON_VERSION="3.4" IPYTHON_VERSION=3
+   - PYTHON_VERSION="3.3" IPYTHON_VERSION=3
+   - PYTHON_VERSION="2.7" IPYTHON_VERSION=3
+   - PYTHON_VERSION="3.3" IPYTHON_VERSION=2
+   - PYTHON_VERSION="2.7" IPYTHON_VERSION=2
+before_install:
+   # Move out of git directory to build root.
+   - cd ../..
+   - pwd
+install:
+   # Download and configure conda.
+   - wget http://repo.continuum.io/miniconda/Miniconda`echo ${PYTHON_VERSION:0:1} | grep 3`-latest-Linux-x86_64.sh -O miniconda.sh
+   - bash miniconda.sh -b -p $HOME/miniconda
+   - export PATH="$HOME/miniconda/bin:$PATH"
+   - conda config --set always_yes yes
+   - conda config --set show_channel_urls True
+   - source activate root
+   - conda update --all
+   # Fix root environment to have the correct Python version.
+   - touch $HOME/miniconda/conda-meta/pinned
+   - echo "python ${PYTHON_VERSION}.*" >> $HOME/miniconda/conda-meta/pinned
+   - conda install python=$PYTHON_VERSION
+   # Install basic conda dependencies.
+   - touch $HOME/miniconda/conda-meta/pinned
+   - echo "conda-build ==1.16.0" >> $HOME/miniconda/conda-meta/pinned
+   - conda install conda-build
+   # Build the conda package for runipy.
+   - cd $TRAVIS_REPO_SLUG
+   - VERSION=`python setup.py --version`
+   - echo $VERSION
+   # Create the test environment and install dependencies.
+   - conda create --use-local -n testenv python=$PYTHON_VERSION
+   - source activate testenv
+   # Install dependencies.
+   - touch $HOME/miniconda/envs/testenv/conda-meta/pinned
+   - echo "python ${PYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
+   - echo "ipython ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
+   - echo "ipython-notebook ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
+   - conda install ipython-notebook
+   # Install runipy.
+   - python setup.py install
+   # Install coverage and coveralls to generate and submit test coverage results for coveralls.io.
+   - echo "coverage 3.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
+   - conda install coverage
+   # Clean up downloads as there are quite a few and they waste space/memory.
+   - conda clean -tipsy
+   - rm -rfv $HOME/.cache/pip
+script:
+   # Run tests.
+   - coverage run setup.py test --verbose
+   - coverage report
+# Use container format for TravisCI.
+sudo: false
+notifications:
+  email:
+    on_success: never
+    on_failure: never
+  webhooks:
+    on_success: always
+    on_failure: always
+    urls:
+      - https://webhooks.gitter.im/e/ddb94a08ad824369f3bf
