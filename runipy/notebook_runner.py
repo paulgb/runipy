@@ -12,7 +12,11 @@ from time import sleep
 import logging
 import os
 
-from IPython.nbformat.current import NotebookNode
+try:
+    # IPython 3
+    from IPython.nbformat import NotebookNode
+except ImportError:
+    from IPython.nbformat.current import NotebookNode
 from IPython.kernel import KernelManager
 
 
