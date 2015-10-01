@@ -8,7 +8,12 @@ import codecs
 import runipy
 
 from runipy.notebook_runner import NotebookRunner, NotebookError
-from IPython.nbformat.current import read, write
+try:
+    # IPython 3
+    from IPython.nbformat import read, write, NBFormatError
+except ImportError:
+    # IPython 2
+    from IPython.nbformat.current import read, write, NBFormatError
 
 from IPython.config import Config
 from IPython.nbconvert.exporters.html import HTMLExporter
@@ -114,7 +119,12 @@ def main():
         profile_dir = None
 
     logging.info('Reading notebook %s', payload.name)
-    nb = read(payload, 'json')
+    try:
+        # Ipython 3
+        nb = read(payload, 3)
+    except (TypeError, NBFormatError):
+        # Ipython 2
+        nb = read(payload, 'json')
     nb_runner = NotebookRunner(
         nb, args.pylab, args.matplotlib, profile_dir, working_dir
     )

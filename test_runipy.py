@@ -5,7 +5,12 @@ from glob import glob
 from os import path
 import re
 
-from IPython.nbformat.current import read
+try:
+    # IPython 3
+    from IPython.nbformat import read, NBFormatError
+except ImportError:
+    # IPython 2
+    from IPython.nbformat.current import read, NBFormatError
 
 from runipy.notebook_runner import NotebookRunner
 
@@ -61,13 +66,25 @@ class TestRunipy(unittest.TestCase):
             print(notebook_file)
             expected_file = path.join('tests', 'expected', notebook_file)
             notebook = ""
-            with open(notebook_path) as notebook_file:
-                notebook = read(notebook_file, 'json')
+            try:
+                # IPython 3
+                with open(notebook_path) as notebook_file:
+                    notebook = read(notebook_file, 3)
+            except (TypeError, NBFormatError):
+                # IPython 2
+                with open(notebook_path) as notebook_file:
+                    notebook = read(notebook_file, 'json')
             runner = NotebookRunner(notebook, working_dir=notebook_dir)
             runner.run_notebook(True)
             expected = ""
-            with open(expected_file) as notebook_file:
-                expected = read(notebook_file, 'json')
+            try:
+                # IPython 3
+                with open(expected_file) as notebook_file:
+                    expected = read(notebook_file, 3)
+            except (TypeError, NBFormatError):
+                # IPython 2
+                with open(expected_file) as notebook_file:
+                    expected = read(notebook_file, 'json')
             self.assert_notebooks_equal(expected, runner.nb)
 
 
