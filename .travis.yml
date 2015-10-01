@@ -1,5 +1,6 @@
 language: cpp
 env:
+   - PYTHON_VERSION="3.5" IPYTHON_VERSION=4
    - PYTHON_VERSION="3.4" IPYTHON_VERSION=4
    - PYTHON_VERSION="2.7" IPYTHON_VERSION=4
    - PYTHON_VERSION="3.4" IPYTHON_VERSION=3
@@ -24,16 +25,12 @@ install:
    - touch $HOME/miniconda/conda-meta/pinned
    - echo "python ${PYTHON_VERSION}.*" >> $HOME/miniconda/conda-meta/pinned
    - conda install python=$PYTHON_VERSION
-   # Install basic conda dependencies.
-   - touch $HOME/miniconda/conda-meta/pinned
-   - echo "conda-build ==1.16.0" >> $HOME/miniconda/conda-meta/pinned
-   - conda install conda-build
    # Build the conda package for runipy.
    - cd $TRAVIS_REPO_SLUG
    - VERSION=`python setup.py --version`
    - echo $VERSION
    # Create the test environment and install dependencies.
-   - conda create --use-local -n testenv python=$PYTHON_VERSION
+   - conda create -n testenv python=$PYTHON_VERSION
    - source activate testenv
    # Install dependencies.
    - touch $HOME/miniconda/envs/testenv/conda-meta/pinned
