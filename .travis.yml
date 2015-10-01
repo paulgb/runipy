@@ -24,10 +24,6 @@ install:
    - touch $HOME/miniconda/conda-meta/pinned
    - echo "python ${PYTHON_VERSION}.*" >> $HOME/miniconda/conda-meta/pinned
    - conda install python=$PYTHON_VERSION
-   # Install basic conda dependencies.
-   - touch $HOME/miniconda/conda-meta/pinned
-   - echo "conda-build ==1.16.0" >> $HOME/miniconda/conda-meta/pinned
-   - conda install conda-build
    # Build the conda package for runipy.
    - cd $TRAVIS_REPO_SLUG
    - VERSION=`python setup.py --version`
