@@ -15,7 +15,7 @@ setup(name='runipy',
       install_requires=[
           'Jinja2>=2.7.2',
           'Pygments>=1.6',
-          'ipython>=2.3.1,<4',
+          'ipython>=2.3.1',
           'pyzmq>=14.1.0',
       ],
       packages=['runipy'],
