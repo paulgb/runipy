@@ -33,7 +33,7 @@ install:
    - VERSION=`python setup.py --version`
    - echo $VERSION
    # Create the test environment and install dependencies.
-   - conda create --use-local -n testenv python=$PYTHON_VERSION
+   - conda create -n testenv python=$PYTHON_VERSION
    - source activate testenv
    # Install dependencies.
    - touch $HOME/miniconda/envs/testenv/conda-meta/pinned
