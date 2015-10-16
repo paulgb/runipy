@@ -41,18 +41,18 @@ install:
    - if [ -v IPYTHON_VERSION ]; then echo "ipython ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned ; fi
    - if [ -v IPYTHON_VERSION ]; then echo "ipython-notebook ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned ; fi
    - if [ -v IPYTHON_VERSION ]; then conda install ipython-notebook ; fi
-   # Install runipy.
-   - python setup.py install
    # Install coverage and coveralls to generate and submit test coverage results for coveralls.io.
    - echo "coverage 3.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
    - conda install coverage
    - pip install coveralls
+   # Install runipy.
+   - coverage run -a setup.py install
    # Clean up downloads as there are quite a few and they waste space/memory.
    - conda clean -tipsy
    - rm -rfv $HOME/.cache/pip
 script:
    # Run tests.
-   - coverage run setup.py test --verbose
+   - coverage run -a setup.py test --verbose
    - coverage report
 # Use container format for TravisCI.
 after_success:
