@@ -6,3 +6,5 @@ dist
 .eggs/
 
 .coverage
+
+.ipynb_checkpoints/
