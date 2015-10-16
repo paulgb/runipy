@@ -1,5 +1,8 @@
 language: cpp
 env:
+   - PYTHON_VERSION="3.5"
+   - PYTHON_VERSION="3.4"
+   - PYTHON_VERSION="2.7"
    - PYTHON_VERSION="3.5" IPYTHON_VERSION=4
    - PYTHON_VERSION="3.4" IPYTHON_VERSION=4
    - PYTHON_VERSION="2.7" IPYTHON_VERSION=4
@@ -35,9 +38,9 @@ install:
    # Install dependencies.
    - touch $HOME/miniconda/envs/testenv/conda-meta/pinned
    - echo "python ${PYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
-   - echo "ipython ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
-   - echo "ipython-notebook ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
-   - conda install ipython-notebook
+   - if [ -v IPYTHON_VERSION ]; then echo "ipython ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned ; fi
+   - if [ -v IPYTHON_VERSION ]; then echo "ipython-notebook ${IPYTHON_VERSION}.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned ; fi
+   - if [ -v IPYTHON_VERSION ]; then conda install ipython-notebook ; fi
    # Install runipy.
    - python setup.py install
    # Install coverage and coveralls to generate and submit test coverage results for coveralls.io.
