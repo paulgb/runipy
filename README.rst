@@ -59,6 +59,14 @@ before the program name::
 
     $ myvar=value runipy MyNotebook.ipynb
 
+Here is one way this can be done from pure python::
+
+    from os import environ
+    from subprocess import call
+
+    environ['myvar'] = 'value'
+    call(["runipy", "MyNotebook.ipynb"])
+
 Then in the notebook, to access myvar::
 
     from os import environ
