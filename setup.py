@@ -3,6 +3,27 @@ from setuptools import setup
 import versioneer
 
 
+using_ipy4 = False
+try:
+    from IPython import __version__ as ipyv
+    from distutils.version import LooseVersion
+
+    using_ipy4 = (ipyv >= LooseVersion("4"))
+except ImportError:
+    using_ipy4 = True
+
+install_requires = [
+    'Jinja2>=2.7.2',
+    'Pygments>=1.6',
+    'ipython>=2.3.1',
+    'pyzmq>=14.1.0',
+]
+if using_ipy4:
+    install_requires.extend([
+        'ipykernel>=4.0.0',
+        'nbformat>=4.0.0',
+    ])
+
 setup(name='runipy',
       version=versioneer.get_version(),
       description='Run IPython notebooks from the command line',
@@ -12,12 +33,7 @@ setup(name='runipy',
       classifiers=[
           'Framework :: IPython',
       ],
-      install_requires=[
-          'Jinja2>=2.7.2',
-          'Pygments>=1.6',
-          'ipython>=2.3.1',
-          'pyzmq>=14.1.0',
-      ],
+      install_requires=install_requires,
       packages=['runipy'],
       entry_points={
           'console_scripts': [
