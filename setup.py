@@ -30,6 +30,8 @@ setup(name='runipy',
       url='https://github.com/paulgb/runipy',
       author='Paul Butler',
       author_email='paulgb@gmail.com',
+      maintainer='John Kirkham',
+      maintainer_email='jakirkham@gmail.com',
       classifiers=[
           'Framework :: IPython',
       ],
