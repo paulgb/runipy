@@ -3,5 +3,6 @@ runipy.egg-info
 .*.swp
 build
 dist
+.eggs/
 
 .coverage
