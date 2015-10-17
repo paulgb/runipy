@@ -47,6 +47,8 @@ install:
    - pip install coveralls
    # Install runipy.
    - coverage run -a setup.py install
+   # Install linting tools.
+   - pip install prospector
    # Clean up downloads as there are quite a few and they waste space/memory.
    - conda clean -tipsy
    - rm -rfv $HOME/.cache/pip
@@ -54,6 +56,8 @@ script:
    # Run tests.
    - coverage run -a setup.py test --verbose
    - coverage report
+   # Analyze code.
+   - prospector || true
 # Use container format for TravisCI.
 after_success:
    # Submit results to coveralls.io.
