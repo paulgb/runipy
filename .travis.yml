@@ -54,9 +54,9 @@ install:
    - rm -rfv $HOME/.cache/pip
 script:
    # Run CLI.
-   - runipy --version
-   - runipy --help
-   - runipy
+   - coverage run -a runipy/main.py --version
+   - coverage run -a runipy/main.py --help
+   - coverage run -a runipy/main.py
    # Run tests.
    - coverage run -a setup.py test --verbose
    - coverage report
