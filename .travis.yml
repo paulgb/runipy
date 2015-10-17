@@ -53,6 +53,9 @@ install:
    - conda clean -tipsy
    - rm -rfv $HOME/.cache/pip
 script:
+   # Run CLI.
+   - runipy --version
+   - runipy --help
    # Run tests.
    - coverage run -a setup.py test --verbose
    - coverage report
