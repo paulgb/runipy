@@ -24,5 +24,6 @@ pyroma:
 mccabe:
     run: true
 ignore-paths:
+    - build/
     - runipy/_version.py
     - versioneer.py
