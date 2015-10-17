@@ -138,10 +138,20 @@ def main():
     if args.output_file and args.output_file != '-':
         logging.info('Saving to %s', args.output_file)
         with open(args.output_file, 'w') as output_filehandle:
-            write(nb_runner.nb, output_filehandle, 'json')
+            try:
+                # Ipython 3
+                write(nb_runner.nb, output_filehandle, 3)
+            except (TypeError, NBFormatError):
+                # Ipython 2
+                write(nb_runner.nb, output_filehandle, 'json')
 
     if args.stdout or args.output_file == '-':
-        write(nb_runner.nb, stdout, 'json')
+        try:
+            # Ipython 3
+            write(nb_runner.nb, stdout, 3)
+        except (TypeError, NBFormatError):
+            # Ipython 2
+            write(nb_runner.nb, stdout, 'json')
         print()
 
     if args.html is not False:
