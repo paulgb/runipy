@@ -21,6 +21,7 @@ install_requires = [
 if using_ipy4:
     install_requires.extend([
         'ipykernel>=4.0.0',
+        'nbconvert>=4.0.0',
         'nbformat>=4.0.0',
     ])
 
