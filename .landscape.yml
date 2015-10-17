@@ -1,0 +1,28 @@
+autodetect: yes
+# Documentation coverage provided by PEP257. Quite good.
+doc-warnings: yes
+# Ignore the tests directory. Seems to complain about docstrings mostly.
+# May change in the future as docstrings can provide a simple explanation.
+test-warnings: no
+strictness: veryhigh
+# Line length to conform with PEP8.
+max-line-length: 79
+# Use some standard linting tools.
+pep8:
+    full: true
+# Check docstring coverage and style.
+pep257:
+    run: true
+pyflakes:
+    run: true
+pylint:
+    run: true
+# Analyze our `setup.py`.
+pyroma:
+    run: true
+# Analyze our code complexity.
+mccabe:
+    run: true
+ignore-paths:
+    - runipy/_version.py
+    - versioneer.py
