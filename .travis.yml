@@ -48,7 +48,7 @@ install:
    # Install runipy.
    - coverage run -a setup.py install
    # Install linting tools.
-   - pip install prospector
+   - pip install prospector[with_everything]
    # Clean up downloads as there are quite a few and they waste space/memory.
    - conda clean -tipsy
    - rm -rfv $HOME/.cache/pip
