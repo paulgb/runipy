@@ -48,7 +48,7 @@ install:
    # Install runipy.
    - coverage run -a setup.py install
    # Install linting tools.
-   - pip install prospector[with_everything]
+   - if [ "${PYTHON_VERSION}" != "3.5" ]; then pip install prospector[with_everything] ; fi
    # Clean up downloads as there are quite a few and they waste space/memory.
    - conda clean -tipsy
    - rm -rfv $HOME/.cache/pip
@@ -60,7 +60,7 @@ script:
    - coverage run -a setup.py test --verbose
    - coverage report
    # Analyze code.
-   - prospector || true
+   - if [ "${PYTHON_VERSION}" != "3.5" ]; then prospector || true ; fi
 # Use container format for TravisCI.
 after_success:
    # Submit results to coveralls.io.
