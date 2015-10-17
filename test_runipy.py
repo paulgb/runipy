@@ -48,8 +48,10 @@ class TestRunipy(unittest.TestCase):
         return cell
 
     def assert_notebooks_equal(self, expected, actual):
-        self.assertEqual(len(expected['worksheets'][0]['cells']),
-                len(actual['worksheets'][0]['cells']))
+        self.assertEqual(
+            len(expected['worksheets'][0]['cells']),
+            len(actual['worksheets'][0]['cells'])
+        )
 
         for expected_out, actual_out in zip(expected['worksheets'][0]['cells'],
                 actual['worksheets'][0]['cells']):
