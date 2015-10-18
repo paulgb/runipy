@@ -31,6 +31,7 @@ with open("README.rst") as readme_file:
 
 setup(name='runipy',
       version=versioneer.get_version(),
+      license="BSD 2-Clause",
       description='Run IPython notebooks from the command line',
       long_description=readme,
       url='https://github.com/paulgb/runipy',
