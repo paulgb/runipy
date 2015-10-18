@@ -59,5 +59,6 @@ setup(
         ]
     },
     cmdclass=versioneer.get_cmdclass(),
-    test_suite="test_runipy"
+    test_suite="test_runipy",
+    zip_safe=True
 )
