@@ -54,8 +54,10 @@ class TestRunipy(unittest.TestCase):
             len(actual['worksheets'][0]['cells'])
         )
 
-        for expected_out, actual_out in zip(expected['worksheets'][0]['cells'],
-                actual['worksheets'][0]['cells']):
+        for expected_out, actual_out in zip(
+                expected['worksheets'][0]['cells'],
+                actual['worksheets'][0]['cells']
+        ):
             for k in set(expected_out).union(actual_out):
                 if k == 'outputs':
                     self.assertEqual(len(expected_out[k]), len(actual_out[k]))
