@@ -41,6 +41,7 @@ setup(
     maintainer='John Kirkham',
     maintainer_email='jakirkham@gmail.com',
     classifiers=[
+        'Environment :: Console',
         'Framework :: IPython',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python :: 2',
