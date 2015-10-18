@@ -114,9 +114,7 @@ class NotebookRunner(object):
                 break
 
     def run_cell(self, cell):
-        """
-        Run a notebook cell and update the output of that cell in-place.
-        """
+        """Run a notebook cell and update the output of that cell in-place."""
         logging.info('Running cell:\n%s\n', cell.input)
         self.kc.execute(cell.input)
         reply = self.kc.get_shell_msg()
