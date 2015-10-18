@@ -25,9 +25,14 @@ if using_ipy4:
         'nbformat>=4.0.0',
     ])
 
+readme = ""
+with open("README.rst") as readme_file:
+    readme = readme_file.read()
+
 setup(name='runipy',
       version=versioneer.get_version(),
       description='Run IPython notebooks from the command line',
+      long_description=readme,
       url='https://github.com/paulgb/runipy',
       author='Paul Butler',
       author_email='paulgb@gmail.com',
