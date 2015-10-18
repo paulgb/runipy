@@ -42,6 +42,7 @@ setup(
     maintainer_email='jakirkham@gmail.com',
     classifiers=[
         'Framework :: IPython',
+        'License :: OSI Approved :: BSD License',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
