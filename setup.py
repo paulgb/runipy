@@ -1,3 +1,4 @@
+from distutils.version import LooseVersion
 from setuptools import setup
 
 import versioneer
@@ -6,8 +7,6 @@ import versioneer
 using_ipy4 = False
 try:
     from IPython import __version__ as ipyv
-    from distutils.version import LooseVersion
-
     using_ipy4 = (ipyv >= LooseVersion("4"))
 except ImportError:
     using_ipy4 = True
