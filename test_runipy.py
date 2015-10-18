@@ -4,6 +4,7 @@ import unittest
 from glob import glob
 from os import path
 import re
+import sys
 
 try:
     # IPython 3
@@ -12,6 +13,7 @@ except ImportError:
     # IPython 2
     from IPython.nbformat.current import reads, NBFormatError
 
+from runipy.main import main
 from runipy.notebook_runner import NotebookRunner
 
 
@@ -86,6 +88,40 @@ class TestRunipy(unittest.TestCase):
                 # IPython 2
                 expected = reads(expected, 'json')
             self.assert_notebooks_equal(expected, runner.nb)
+
+    def testCLI(self):
+        notebook_dir = path.join('tests', 'expected')
+        for notebook_path in glob(path.join(notebook_dir, '*.ipynb')):
+            notebook_file = path.basename(notebook_path)
+            print(notebook_file)
+            expected = ""
+            with open(notebook_path) as notebook_file:
+                expected = notebook_file.read()
+            try:
+                # IPython 3
+                expected = reads(expected, 3)
+            except (TypeError, NBFormatError):
+                # IPython 2
+                expected = reads(expected, 'json')
+            exit_code = 1
+            argv = sys.argv
+            try:
+                sys.argv = ["runipy", "-o", notebook_path]
+                main()
+            except SystemExit as e:
+                exit_code = e.code
+            finally:
+                sys.argv = argv
+            notebook = ""
+            with open(notebook_path) as notebook_file:
+                notebook = notebook_file.read()
+            try:
+                # IPython 3
+                notebook = reads(notebook, 3)
+            except (TypeError, NBFormatError):
+                # IPython 2
+                notebook = reads(notebook, 'json')
+            self.assert_notebooks_equal(expected, notebook)
 
 
 if __name__ == '__main__':
