@@ -3,7 +3,7 @@ from __future__ import print_function
 try:
     # python 2
     from Queue import Empty
-except:
+except ImportError:
     # python 3
     from queue import Empty
 
