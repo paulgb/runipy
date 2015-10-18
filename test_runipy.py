@@ -30,7 +30,8 @@ class TestRunipy(unittest.TestCase):
             # instead of "at [id]"
             cell['text'] = re.sub('at 0x[0-9a-f]+', 'object', cell['text'])
         if 'traceback' in cell:
-            cell['traceback'] = [re.sub('\x1b\\[[01];\\d\\dm', '', line) for line in cell['traceback']]
+            trsub = lambda l: re.sub('\x1b\\[[01];\\d\\dm', '', l)
+            cell['traceback'] = [trsub(line) for line in cell['traceback']]
             # rejoin lines, so it's one string to compare
             cell['traceback'] = u'\n'.join(cell['traceback'])
             # Python 3 describes a ZeroDivisionError differently.
