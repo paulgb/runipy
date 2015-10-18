@@ -10,10 +10,10 @@ import runipy
 from runipy.notebook_runner import NotebookRunner, NotebookError
 try:
     # IPython 3
-    from IPython.nbformat import read, write, NBFormatError
+    from IPython.nbformat import reads, write, NBFormatError
 except ImportError:
     # IPython 2
-    from IPython.nbformat.current import read, write, NBFormatError
+    from IPython.nbformat.current import reads, write, NBFormatError
 
 from IPython.config import Config
 from IPython.nbconvert.exporters.html import HTMLExporter
@@ -99,15 +99,21 @@ def main():
 
     working_dir = None
 
+    payload_source = ""
+    payload = ""
     if args.input_file == '-' or args.stdin:  # force stdin
-        payload = stdin
+        payload_source = stdin.name
+        payload = stdin.read()
     elif not args.input_file and stdin.isatty():  # no force, empty stdin
         parser.print_help()
         exit()
     elif not args.input_file:  # no file -> default stdin
-        payload = stdin
+        payload_source = stdin.name
+        payload = stdin.read()
     else:  # must have specified normal input_file
-        payload = open(args.input_file)
+        with open(args.input_file) as input_file:
+            payload_source = input_file.name
+            payload = input_file.read()
         working_dir = os.path.dirname(args.input_file)
 
     if args.no_chdir:
@@ -118,13 +124,13 @@ def main():
     else:
         profile_dir = None
 
-    logging.info('Reading notebook %s', payload.name)
+    logging.info('Reading notebook %s', payload_source)
     try:
         # Ipython 3
-        nb = read(payload, 3)
+        nb = reads(payload, 3)
     except (TypeError, NBFormatError):
         # Ipython 2
-        nb = read(payload, 'json')
+        nb = reads(payload, 'json')
     nb_runner = NotebookRunner(
         nb, args.pylab, args.matplotlib, profile_dir, working_dir
     )
