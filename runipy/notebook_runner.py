@@ -98,8 +98,8 @@ class NotebookRunner(object):
         self.km.shutdown_kernel(now=True)
 
     def _wait_for_ready_backport(self):
-        """Backport BlockingKernelClient.wait_for_ready from IPython 3"""
-        # Wait for kernel info reply on shell channel
+        # Backport BlockingKernelClient.wait_for_ready from IPython 3.
+        # Wait for kernel info reply on shell channel.
         self.kc.kernel_info()
         while True:
             msg = self.kc.get_shell_msg(block=True, timeout=30)
