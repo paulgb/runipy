@@ -3,7 +3,7 @@ from __future__ import print_function
 try:
     # python 2
     from Queue import Empty
-except:
+except ImportError:
     # python 3
     from queue import Empty
 
@@ -98,8 +98,8 @@ class NotebookRunner(object):
         self.km.shutdown_kernel(now=True)
 
     def _wait_for_ready_backport(self):
-        """Backport BlockingKernelClient.wait_for_ready from IPython 3"""
-        # Wait for kernel info reply on shell channel
+        # Backport BlockingKernelClient.wait_for_ready from IPython 3.
+        # Wait for kernel info reply on shell channel.
         self.kc.kernel_info()
         while True:
             msg = self.kc.get_shell_msg(block=True, timeout=30)
@@ -114,9 +114,7 @@ class NotebookRunner(object):
                 break
 
     def run_cell(self, cell):
-        """
-        Run a notebook cell and update the output of that cell in-place.
-        """
+        """Run a notebook cell and update the output of that cell in-place."""
         logging.info('Running cell:\n%s\n', cell.input)
         self.kc.execute(cell.input)
         reply = self.kc.get_shell_msg()
@@ -170,7 +168,6 @@ class NotebookRunner(object):
                     out.text = content['text']
                 else:
                     out.text = content['data']
-                #print(out.text, end='')
             elif msg_type in ('display_data', 'pyout'):
                 for mime, data in content['data'].items():
                     try:
@@ -181,13 +178,10 @@ class NotebookRunner(object):
                         )
 
                     setattr(out, attr, data)
-                #print(data, end='')
             elif msg_type == 'pyerr':
                 out.ename = content['ename']
                 out.evalue = content['evalue']
                 out.traceback = content['traceback']
-
-                #logging.error('\n'.join(content['traceback']))
             elif msg_type == 'clear_output':
                 outs = list()
                 continue
@@ -202,9 +196,7 @@ class NotebookRunner(object):
             raise NotebookError(traceback_text)
 
     def iter_code_cells(self):
-        """
-        Iterate over the notebook cells containing code.
-        """
+        """Iterate over the notebook cells containing code."""
         for ws in self.nb.worksheets:
             for cell in ws.cells:
                 if cell.cell_type == 'code':
@@ -212,8 +204,7 @@ class NotebookRunner(object):
 
     def run_notebook(self, skip_exceptions=False, progress_callback=None):
         """
-        Run all the cells of a notebook in order and update
-        the outputs in-place.
+        Run all the notebook cells in order and update the outputs in-place.
 
         If ``skip_exceptions`` is set, then if exceptions occur in a cell, the
         subsequent cells are run (by default, the notebook execution stops).
@@ -228,7 +219,5 @@ class NotebookRunner(object):
                 progress_callback(i)
 
     def count_code_cells(self):
-        """
-        Return the number of code cells in the notebook
-        """
+        """Return the number of code cells in the notebook."""
         return sum(1 for _ in self.iter_code_cells())

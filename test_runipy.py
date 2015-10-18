@@ -30,7 +30,8 @@ class TestRunipy(unittest.TestCase):
             # instead of "at [id]"
             cell['text'] = re.sub('at 0x[0-9a-f]+', 'object', cell['text'])
         if 'traceback' in cell:
-            cell['traceback'] = [re.sub('\x1b\\[[01];\\d\\dm', '', line) for line in cell['traceback']]
+            trsub = lambda l: re.sub('\x1b\\[[01];\\d\\dm', '', l)
+            cell['traceback'] = [trsub(line) for line in cell['traceback']]
             # rejoin lines, so it's one string to compare
             cell['traceback'] = u'\n'.join(cell['traceback'])
             # Python 3 describes a ZeroDivisionError differently.
@@ -48,11 +49,15 @@ class TestRunipy(unittest.TestCase):
         return cell
 
     def assert_notebooks_equal(self, expected, actual):
-        self.assertEqual(len(expected['worksheets'][0]['cells']),
-                len(actual['worksheets'][0]['cells']))
+        self.assertEqual(
+            len(expected['worksheets'][0]['cells']),
+            len(actual['worksheets'][0]['cells'])
+        )
 
-        for expected_out, actual_out in zip(expected['worksheets'][0]['cells'],
-                actual['worksheets'][0]['cells']):
+        for expected_out, actual_out in zip(
+                expected['worksheets'][0]['cells'],
+                actual['worksheets'][0]['cells']
+        ):
             for k in set(expected_out).union(actual_out):
                 if k == 'outputs':
                     self.assertEqual(len(expected_out[k]), len(actual_out[k]))
