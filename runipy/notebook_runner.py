@@ -168,7 +168,6 @@ class NotebookRunner(object):
                     out.text = content['text']
                 else:
                     out.text = content['data']
-                #print(out.text, end='')
             elif msg_type in ('display_data', 'pyout'):
                 for mime, data in content['data'].items():
                     try:
@@ -179,13 +178,10 @@ class NotebookRunner(object):
                         )
 
                     setattr(out, attr, data)
-                #print(data, end='')
             elif msg_type == 'pyerr':
                 out.ename = content['ename']
                 out.evalue = content['evalue']
                 out.traceback = content['traceback']
-
-                #logging.error('\n'.join(content['traceback']))
             elif msg_type == 'clear_output':
                 outs = list()
                 continue
