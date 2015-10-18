@@ -2,7 +2,7 @@ from __future__ import print_function
 
 import unittest
 from glob import glob
-from os import path
+from os import devnull, path
 import re
 import sys
 
@@ -105,13 +105,19 @@ class TestRunipy(unittest.TestCase):
                 expected = reads(expected, 'json')
             exit_code = 1
             argv = sys.argv
+            stdout = sys.stdout
+            stderr = sys.stderr
             try:
-                sys.argv = ["runipy", "-o", notebook_path]
-                main()
+                with open(devnull, "w") as devnull_filehandle:
+                    sys.stdout = sys.stderr = devnull_filehandle
+                    sys.argv = ["runipy", "-o", notebook_path]
+                    main()
             except SystemExit as e:
                 exit_code = e.code
             finally:
                 sys.argv = argv
+                sys.stdout = stdout
+                sys.stderr = stderr
             notebook = ""
             with open(notebook_path) as notebook_file:
                 notebook = notebook_file.read()
