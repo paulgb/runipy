@@ -42,6 +42,12 @@ setup(
     maintainer_email='jakirkham@gmail.com',
     classifiers=[
         'Framework :: IPython',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
     ],
     install_requires=install_requires,
     packages=['runipy'],
