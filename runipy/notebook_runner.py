@@ -225,7 +225,5 @@ class NotebookRunner(object):
                 progress_callback(i)
 
     def count_code_cells(self):
-        """
-        Return the number of code cells in the notebook
-        """
+        """Return the number of code cells in the notebook."""
         return sum(1 for _ in self.iter_code_cells())
