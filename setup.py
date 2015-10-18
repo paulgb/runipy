@@ -29,26 +29,27 @@ readme = ""
 with open("README.rst") as readme_file:
     readme = readme_file.read()
 
-setup(name='runipy',
-      version=versioneer.get_version(),
-      license="BSD 2-Clause",
-      description='Run IPython notebooks from the command line',
-      long_description=readme,
-      url='https://github.com/paulgb/runipy',
-      author='Paul Butler',
-      author_email='paulgb@gmail.com',
-      maintainer='John Kirkham',
-      maintainer_email='jakirkham@gmail.com',
-      classifiers=[
-          'Framework :: IPython',
-      ],
-      install_requires=install_requires,
-      packages=['runipy'],
-      entry_points={
-          'console_scripts': [
-              'runipy = runipy.main:main'
-          ]
-      },
-      cmdclass=versioneer.get_cmdclass(),
-      test_suite="test_runipy"
+setup(
+    name='runipy',
+    version=versioneer.get_version(),
+    license="BSD 2-Clause",
+    description='Run IPython notebooks from the command line',
+    long_description=readme,
+    url='https://github.com/paulgb/runipy',
+    author='Paul Butler',
+    author_email='paulgb@gmail.com',
+    maintainer='John Kirkham',
+    maintainer_email='jakirkham@gmail.com',
+    classifiers=[
+        'Framework :: IPython',
+    ],
+    install_requires=install_requires,
+    packages=['runipy'],
+    entry_points={
+        'console_scripts': [
+            'runipy = runipy.main:main'
+        ]
+    },
+    cmdclass=versioneer.get_cmdclass(),
+    test_suite="test_runipy"
 )
