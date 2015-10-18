@@ -210,8 +210,7 @@ class NotebookRunner(object):
 
     def run_notebook(self, skip_exceptions=False, progress_callback=None):
         """
-        Run all the cells of a notebook in order and update
-        the outputs in-place.
+        Run all the notebook cells in order and update the outputs in-place.
 
         If ``skip_exceptions`` is set, then if exceptions occur in a cell, the
         subsequent cells are run (by default, the notebook execution stops).
