@@ -200,9 +200,7 @@ class NotebookRunner(object):
             raise NotebookError(traceback_text)
 
     def iter_code_cells(self):
-        """
-        Iterate over the notebook cells containing code.
-        """
+        """Iterate over the notebook cells containing code."""
         for ws in self.nb.worksheets:
             for cell in ws.cells:
                 if cell.cell_type == 'code':
