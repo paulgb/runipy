@@ -39,6 +39,7 @@ setup(
     author_email='paulgb@gmail.com',
     maintainer='John Kirkham',
     maintainer_email='jakirkham@gmail.com',
+    platforms='any',
     classifiers=[
         'Environment :: Console',
         'Framework :: IPython',
