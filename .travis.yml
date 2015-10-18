@@ -56,6 +56,7 @@ script:
    # Run CLI.
    - runipy --version
    - runipy --help
+   - runipy
    # Run tests.
    - coverage run -a setup.py test --verbose
    - coverage report
