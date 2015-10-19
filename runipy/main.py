@@ -26,6 +26,8 @@ with warnings.catch_warnings():
         from IPython.config import Config
         from IPython.nbconvert.exporters.html import HTMLExporter
         from IPython.nbformat.current import reads, write, NBFormatError
+    finally:
+        warnings.resetwarnings()
 
 
 def main():
