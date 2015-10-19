@@ -5,13 +5,19 @@ from glob import glob
 from os import devnull, path
 import re
 import sys
+import warnings
 
-try:
-    # IPython 3
-    from IPython.nbformat import reads, NBFormatError
-except ImportError:
-    # IPython 2
-    from IPython.nbformat.current import reads, NBFormatError
+with warnings.catch_warnings():
+    warnings.filterwarnings('error')
+    try:
+        # IPython 3
+        from IPython.nbformat import reads, NBFormatError
+    except Warning:
+        # IPython 4
+        from nbformat import reads, NBFormatError
+    except ImportError:
+        # IPython 2
+        from IPython.nbformat.current import reads, NBFormatError
 
 from runipy.main import main
 from runipy.notebook_runner import NotebookRunner
