@@ -14,17 +14,18 @@ with warnings.catch_warnings():
     try:
         # IPython 3
         from IPython.config import Config
+        from IPython.nbconvert.exporters.html import HTMLExporter
         from IPython.nbformat import reads, write, NBFormatError
     except Warning:
         # IPython 4
         from traitlets.config import Config
+        from nbconvert.exporters.html import HTMLExporter
         from nbformat import reads, write, NBFormatError
     except ImportError:
         # IPython 2
         from IPython.config import Config
+        from IPython.nbconvert.exporters.html import HTMLExporter
         from IPython.nbformat.current import reads, write, NBFormatError
-
-from IPython.nbconvert.exporters.html import HTMLExporter
 
 
 def main():
