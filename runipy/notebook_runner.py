@@ -17,14 +17,16 @@ with warnings.catch_warnings():
     warnings.filterwarnings('error')
     try:
         # IPython 3
+        from IPython.kernel import KernelManager
         from IPython.nbformat import NotebookNode
     except Warning:
         # IPython 4
         from nbformat import NotebookNode
+        from jupyter_client import KernelManager
     except ImportError:
         # IPython 2
+        from IPython.kernel import KernelManager
         from IPython.nbformat.current import NotebookNode
-from IPython.kernel import KernelManager
 
 
 class NotebookError(Exception):
