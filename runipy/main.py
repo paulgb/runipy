@@ -5,15 +5,21 @@ from sys import stderr, stdout, stdin, exit
 import os.path
 import logging
 import codecs
+import warnings
 import runipy
 
 from runipy.notebook_runner import NotebookRunner, NotebookError
-try:
-    # IPython 3
-    from IPython.nbformat import reads, write, NBFormatError
-except ImportError:
-    # IPython 2
-    from IPython.nbformat.current import reads, write, NBFormatError
+with warnings.catch_warnings():
+    warnings.filterwarnings('error')
+    try:
+        # IPython 3
+        from IPython.nbformat import reads, write, NBFormatError
+    except Warning:
+        # IPython 4
+        from nbformat import reads, write, NBFormatError
+    except ImportError:
+        # IPython 2
+        from IPython.nbformat.current import reads, write, NBFormatError
 
 from IPython.config import Config
 from IPython.nbconvert.exporters.html import HTMLExporter
