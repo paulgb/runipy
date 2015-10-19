@@ -18,13 +18,14 @@ with warnings.catch_warnings():
         from IPython.utils.shimmodule import ShimWarning
         warnings.filterwarnings('error', '', ShimWarning)
     except ImportError:
-        pass
+        class ShimWarning(Warning):
+            pass
 
     try:
         # IPython 3
         from IPython.kernel import KernelManager
         from IPython.nbformat import NotebookNode
-    except Warning:
+    except ShimWarning:
         # IPython 4
         from nbformat import NotebookNode
         from jupyter_client import KernelManager
