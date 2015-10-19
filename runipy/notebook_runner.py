@@ -27,6 +27,8 @@ with warnings.catch_warnings():
         # IPython 2
         from IPython.kernel import KernelManager
         from IPython.nbformat.current import NotebookNode
+    finally:
+        warnings.resetwarnings()
 
 
 class NotebookError(Exception):
