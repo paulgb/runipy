@@ -11,13 +11,31 @@ import platform
 from time import sleep
 import logging
 import os
+import warnings
 
-try:
-    # IPython 3
-    from IPython.nbformat import NotebookNode
-except ImportError:
-    from IPython.nbformat.current import NotebookNode
-from IPython.kernel import KernelManager
+with warnings.catch_warnings():
+    try:
+        from IPython.utils.shimmodule import ShimWarning
+        warnings.filterwarnings('error', '', ShimWarning)
+    except ImportError:
+        class ShimWarning(Warning):
+            """Warning issued by iPython 4.x regarding deprecated API."""
+            pass
+
+    try:
+        # IPython 3
+        from IPython.kernel import KernelManager
+        from IPython.nbformat import NotebookNode
+    except ShimWarning:
+        # IPython 4
+        from nbformat import NotebookNode
+        from jupyter_client import KernelManager
+    except ImportError:
+        # IPython 2
+        from IPython.kernel import KernelManager
+        from IPython.nbformat.current import NotebookNode
+    finally:
+        warnings.resetwarnings()
 
 
 class NotebookError(Exception):

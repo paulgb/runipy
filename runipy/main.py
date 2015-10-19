@@ -5,18 +5,36 @@ from sys import stderr, stdout, stdin, exit
 import os.path
 import logging
 import codecs
+import warnings
 import runipy
 
 from runipy.notebook_runner import NotebookRunner, NotebookError
-try:
-    # IPython 3
-    from IPython.nbformat import reads, write, NBFormatError
-except ImportError:
-    # IPython 2
-    from IPython.nbformat.current import reads, write, NBFormatError
+with warnings.catch_warnings():
+    try:
+        from IPython.utils.shimmodule import ShimWarning
+        warnings.filterwarnings('error', '', ShimWarning)
+    except ImportError:
+        class ShimWarning(Warning):
+            """Warning issued by iPython 4.x regarding deprecated API."""
+            pass
 
-from IPython.config import Config
-from IPython.nbconvert.exporters.html import HTMLExporter
+    try:
+        # IPython 3
+        from IPython.config import Config
+        from IPython.nbconvert.exporters.html import HTMLExporter
+        from IPython.nbformat import reads, write, NBFormatError
+    except ShimWarning:
+        # IPython 4
+        from traitlets.config import Config
+        from nbconvert.exporters.html import HTMLExporter
+        from nbformat import reads, write, NBFormatError
+    except ImportError:
+        # IPython 2
+        from IPython.config import Config
+        from IPython.nbconvert.exporters.html import HTMLExporter
+        from IPython.nbformat.current import reads, write, NBFormatError
+    finally:
+        warnings.resetwarnings()
 
 
 def main():

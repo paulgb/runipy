@@ -5,13 +5,28 @@ from glob import glob
 from os import devnull, path
 import re
 import sys
+import warnings
 
-try:
-    # IPython 3
-    from IPython.nbformat import reads, NBFormatError
-except ImportError:
-    # IPython 2
-    from IPython.nbformat.current import reads, NBFormatError
+with warnings.catch_warnings():
+    try:
+        from IPython.utils.shimmodule import ShimWarning
+        warnings.filterwarnings('error', '', ShimWarning)
+    except ImportError:
+        class ShimWarning(Warning):
+            """Warning issued by iPython 4.x regarding deprecated API."""
+            pass
+
+    try:
+        # IPython 3
+        from IPython.nbformat import reads, NBFormatError
+    except ShimWarning:
+        # IPython 4
+        from nbformat import reads, NBFormatError
+    except ImportError:
+        # IPython 2
+        from IPython.nbformat.current import reads, NBFormatError
+    finally:
+        warnings.resetwarnings()
 
 from runipy.main import main
 from runipy.notebook_runner import NotebookRunner
