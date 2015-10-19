@@ -18,6 +18,8 @@ with warnings.catch_warnings():
     except ImportError:
         # IPython 2
         from IPython.nbformat.current import reads, NBFormatError
+    finally:
+        warnings.resetwarnings()
 
 from runipy.main import main
 from runipy.notebook_runner import NotebookRunner
