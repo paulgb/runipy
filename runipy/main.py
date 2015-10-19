@@ -14,14 +14,15 @@ with warnings.catch_warnings():
         from IPython.utils.shimmodule import ShimWarning
         warnings.filterwarnings('error', '', ShimWarning)
     except ImportError:
-        pass
+        class ShimWarning(Warning):
+            pass
 
     try:
         # IPython 3
         from IPython.config import Config
         from IPython.nbconvert.exporters.html import HTMLExporter
         from IPython.nbformat import reads, write, NBFormatError
-    except Warning:
+    except ShimWarning:
         # IPython 4
         from traitlets.config import Config
         from nbconvert.exporters.html import HTMLExporter
