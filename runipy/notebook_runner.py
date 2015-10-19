@@ -14,7 +14,12 @@ import os
 import warnings
 
 with warnings.catch_warnings():
-    warnings.filterwarnings('error')
+    try:
+        from IPython.utils.shimmodule import ShimWarning
+        warnings.filterwarnings('error', '', ShimWarning)
+    except ImportError:
+        pass
+
     try:
         # IPython 3
         from IPython.kernel import KernelManager
