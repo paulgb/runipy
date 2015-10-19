@@ -16,6 +16,7 @@ try:
     # IPython 3
     from IPython.nbformat import NotebookNode
 except ImportError:
+    # IPython 2
     from IPython.nbformat.current import NotebookNode
 from IPython.kernel import KernelManager
 
