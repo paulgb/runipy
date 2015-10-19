@@ -94,7 +94,7 @@ class TestRunipy(unittest.TestCase):
                 expected = reads(expected, 'json')
             self.assert_notebooks_equal(expected, runner.nb)
 
-    def testCLI(self):
+    def testUseCLI(self):
         notebook_dir = path.join('tests', 'expected')
         for notebook_path in glob(path.join(notebook_dir, '*.ipynb')):
             notebook_file = path.basename(notebook_path)
