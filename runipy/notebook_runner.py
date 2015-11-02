@@ -19,7 +19,7 @@ with warnings.catch_warnings():
         warnings.filterwarnings('error', '', ShimWarning)
     except ImportError:
         class ShimWarning(Warning):
-            """Warning issued by iPython 4.x regarding deprecated API."""
+            """Warning issued by IPython 4.x regarding deprecated API."""
             pass
 
     try:
