@@ -204,7 +204,9 @@ def main():
             )
 
         logging.info('Saving HTML snapshot to %s' % args.html)
-        output, resources = exporter.from_notebook_node(nb_runner.nb)
+        output, resources = exporter.from_notebook_node(
+            convert(nb_runner.nb, current_nbformat)
+        )
         codecs.open(args.html, 'w', encoding='utf-8').write(output)
 
     nb_runner.shutdown_kernel()
