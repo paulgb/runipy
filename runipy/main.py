@@ -22,17 +22,20 @@ with warnings.catch_warnings():
         # IPython 3
         from IPython.config import Config
         from IPython.nbconvert.exporters.html import HTMLExporter
-        from IPython.nbformat import reads, write, NBFormatError
+        from IPython.nbformat import \
+            convert, current_nbformat, reads, write, NBFormatError
     except ShimWarning:
         # IPython 4
         from traitlets.config import Config
         from nbconvert.exporters.html import HTMLExporter
-        from nbformat import reads, write, NBFormatError
+        from nbformat import \
+            convert, current_nbformat, reads, write, NBFormatError
     except ImportError:
         # IPython 2
         from IPython.config import Config
         from IPython.nbconvert.exporters.html import HTMLExporter
-        from IPython.nbformat.current import reads, write, NBFormatError
+        from IPython.nbformat.current import \
+            convert, current_nbformat, reads, write, NBFormatError
     finally:
         warnings.resetwarnings()
 
@@ -201,7 +204,9 @@ def main():
             )
 
         logging.info('Saving HTML snapshot to %s' % args.html)
-        output, resources = exporter.from_notebook_node(nb_runner.nb)
+        output, resources = exporter.from_notebook_node(
+            convert(nb_runner.nb, current_nbformat)
+        )
         codecs.open(args.html, 'w', encoding='utf-8').write(output)
 
     nb_runner.shutdown_kernel()

@@ -130,7 +130,11 @@ class TestRunipy(unittest.TestCase):
             try:
                 with open(devnull, "w") as devnull_filehandle:
                     sys.stdout = sys.stderr = devnull_filehandle
-                    sys.argv = ["runipy", "-o", notebook_path]
+                    sys.argv = [
+                        "runipy",
+                        "-o", notebook_path,
+                        "--html", notebook_path.replace(".ipynb", ".html")
+                    ]
                     main()
             except SystemExit as e:
                 exit_code = e.code
