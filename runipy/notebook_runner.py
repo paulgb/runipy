@@ -38,6 +38,8 @@ with warnings.catch_warnings():
     finally:
         warnings.resetwarnings()
 
+import IPython
+
 
 class NotebookError(Exception):
     pass
@@ -197,13 +199,14 @@ class NotebookRunner(object):
                             'unhandled mime type: %s' % mime
                         )
                     
-                    # json data is stored as a string
-                    if mime == "application/json":
-                        data_out = json.dumps(data)
+                    # In notebook version <= 3 JSON data is stored as a string
+                    # Evaluation of IPython2's JSON gives strings directly
+                    # Therefore do not encode for IPython versions prior to 3
+                    json_encode = (
+                            IPython.version_info[0] >= 3 and 
+                            mime == "application/json")
 
-                    else:
-                        data_out = data
-
+                    data_out = data if not json_encode else json.dumps(data)
                     setattr(out, attr, data_out)
             elif msg_type == 'pyerr':
                 out.ename = content['ename']
