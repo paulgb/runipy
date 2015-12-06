@@ -9,6 +9,7 @@ except ImportError:
 
 import platform
 from time import sleep
+import json
 import logging
 import os
 import warnings
@@ -54,6 +55,7 @@ class NotebookRunner(object):
         'text/html': 'html',
         'text/latex': 'latex',
         'application/javascript': 'html',
+        'application/json': 'json',
         'image/svg+xml': 'svg',
     }
 
@@ -194,8 +196,15 @@ class NotebookRunner(object):
                         raise NotImplementedError(
                             'unhandled mime type: %s' % mime
                         )
+                    
+                    # json data is stored as a string
+                    if mime == "application/json":
+                        data_out = json.dumps(data)
 
-                    setattr(out, attr, data)
+                    else:
+                        data_out = data
+
+                    setattr(out, attr, data_out)
             elif msg_type == 'pyerr':
                 out.ename = content['ename']
                 out.evalue = content['evalue']
