@@ -7,7 +7,7 @@ import logging
 import codecs
 import warnings
 import runipy
-
+from io import open
 from runipy.notebook_runner import NotebookRunner, NotebookError
 with warnings.catch_warnings():
     try:
