@@ -1,4 +1,4 @@
-|Travis Build Status| |Coveralls| |License| |Version| |Gitter|
+|Travis Build Status| |Coveralls| |License| |PyPI| |Gitter|
 
 --------------
 
@@ -138,7 +138,7 @@ for patches, documentation fixes, and suggestions.
    :alt: BSD License
    :target: https://raw.githubusercontent.com/paulgb/runipy/master/LICENSE
 
-.. |Version| image:: https://img.shields.io/pypi/v/runipy.svg
+.. |PyPI| image:: https://img.shields.io/pypi/v/runipy.svg
    :target: https://pypi.python.org/pypi/runipy
 
 .. |Gitter| image:: https://badges.gitter.im/Join%20Chat.svg
