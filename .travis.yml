@@ -17,17 +17,13 @@ before_install:
    - pwd
 install:
    # Download and configure conda.
-   - wget http://repo.continuum.io/miniconda/Miniconda`echo ${PYTHON_VERSION:0:1}`-latest-Linux-x86_64.sh -O miniconda.sh
+   - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
    - bash miniconda.sh -b -p $HOME/miniconda
    - export PATH="$HOME/miniconda/bin:$PATH"
    - conda config --set always_yes yes
    - conda config --set show_channel_urls True
    - source activate root
    - conda update --all
-   # Fix root environment to have the correct Python version.
-   - touch $HOME/miniconda/conda-meta/pinned
-   - echo "python ${PYTHON_VERSION}.*" >> $HOME/miniconda/conda-meta/pinned
-   - conda install python=$PYTHON_VERSION
    # Build the conda package for runipy.
    - cd $TRAVIS_REPO_SLUG
    - VERSION=`python setup.py --version`
