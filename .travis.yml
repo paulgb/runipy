@@ -45,6 +45,9 @@ install:
    - echo "coverage 3.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
    - conda install coverage
    - pip install coveralls
+   # Install entrypoints first as a workaround for an install issue with `pip`.
+   # See issue ( https://github.com/paulgb/runipy/issues/123 ) for details.
+   - if [ ! -v IPYTHON_VERSION ]; then pip install entrypoints; fi
    # Install runipy.
    - coverage run -a setup.py install
    # Install linting tools.
