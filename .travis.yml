@@ -44,6 +44,9 @@ install:
    # Install `entrypoints` first as a workaround for an install issue with `pip`.
    # See issue ( https://github.com/paulgb/runipy/issues/123 ) for details.
    - if [ ! -v IPYTHON_VERSION ]; then pip install entrypoints; fi
+   # Install `backports.shutil_get_terminal_size` first as a workaround for an install issue with `pip`.
+   # See issue ( https://github.com/paulgb/runipy/issues/123 ) for details.
+   - if ( [ ! -v IPYTHON_VERSION ] && [ "${PYTHON_VERSION}" == "2.7" ] ); then pip install backports.shutil_get_terminal_size; fi
    # Install runipy.
    - coverage run -a setup.py install
    # Install linting tools.
