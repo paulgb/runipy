@@ -1,4 +1,4 @@
-|Travis Build Status| |Coveralls| |License| |PyPI| |Gitter|
+|Travis Build Status| |Coveralls| |License| |PyPI| |Anaconda| |Gitter|
 
 --------------
 
@@ -140,6 +140,9 @@ for patches, documentation fixes, and suggestions.
 
 .. |PyPI| image:: https://img.shields.io/pypi/v/runipy.svg
    :target: https://pypi.python.org/pypi/runipy
+
+.. |Anaconda| image:: https://anaconda.org/conda-forge/runipy/badges/version.svg
+   :target: https://anaconda.org/conda-forge/runipy
 
 .. |Gitter| image:: https://badges.gitter.im/Join%20Chat.svg
    :alt: Join the chat at https://gitter.im/paulgb/runipy
