@@ -7,7 +7,7 @@ import logging
 import codecs
 import warnings
 import runipy
-
+from io import open
 from runipy.notebook_runner import NotebookRunner, NotebookError
 with warnings.catch_warnings():
     try:
@@ -132,7 +132,7 @@ def main():
         payload_source = stdin.name
         payload = stdin.read()
     else:  # must have specified normal input_file
-        with open(args.input_file) as input_file:
+        with open(args.input_file, encoding='utf8') as input_file:
             payload_source = input_file.name
             payload = input_file.read()
         working_dir = os.path.dirname(args.input_file)
