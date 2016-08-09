@@ -41,14 +41,8 @@ install:
    - echo "coverage 3.*" >> $HOME/miniconda/envs/testenv/conda-meta/pinned
    - conda install coverage
    - pip install coveralls
-   # Install `entrypoints` first as a workaround for an install issue with `pip`.
-   # See issue ( https://github.com/paulgb/runipy/issues/123 ) for details.
-   - if [ ! -v IPYTHON_VERSION ]; then pip install entrypoints; fi
-   # Install `backports.shutil_get_terminal_size` first as a workaround for an install issue with `pip`.
-   # See issue ( https://github.com/paulgb/runipy/issues/123 ) for details.
-   - if ( [ ! -v IPYTHON_VERSION ] && [ "${PYTHON_VERSION}" == "2.7" ] ); then pip install backports.shutil_get_terminal_size; fi
    # Install runipy.
-   - coverage run -a setup.py install
+   - coverage run -a -m pip install .
    # Install linting tools.
    - if [ "${PYTHON_VERSION}" != "3.5" ]; then pip install prospector[with_everything] ; fi
    # Clean up downloads as there are quite a few and they waste space/memory.
