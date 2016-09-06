@@ -9,6 +9,7 @@ except ImportError:
 
 import platform
 from time import sleep
+import json
 import logging
 import os
 import warnings
@@ -37,6 +38,8 @@ with warnings.catch_warnings():
     finally:
         warnings.resetwarnings()
 
+import IPython
+
 
 class NotebookError(Exception):
     pass
@@ -54,6 +57,7 @@ class NotebookRunner(object):
         'text/html': 'html',
         'text/latex': 'latex',
         'application/javascript': 'html',
+        'application/json': 'json',
         'image/svg+xml': 'svg',
     }
 
@@ -194,8 +198,16 @@ class NotebookRunner(object):
                         raise NotImplementedError(
                             'unhandled mime type: %s' % mime
                         )
+                    
+                    # In notebook version <= 3 JSON data is stored as a string
+                    # Evaluation of IPython2's JSON gives strings directly
+                    # Therefore do not encode for IPython versions prior to 3
+                    json_encode = (
+                            IPython.version_info[0] >= 3 and 
+                            mime == "application/json")
 
-                    setattr(out, attr, data)
+                    data_out = data if not json_encode else json.dumps(data)
+                    setattr(out, attr, data_out)
             elif msg_type == 'pyerr':
                 out.ename = content['ename']
                 out.evalue = content['evalue']
