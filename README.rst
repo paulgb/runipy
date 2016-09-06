@@ -125,8 +125,9 @@ Portions of the code are based on code by `Min RK <https://github.com/minrk>`_
 Thanks to Kyle Kelley, Nitin Madnani, George Titsworth, Thomas Robitaille,
 Andrey Tatarinov, Matthew Brett, Adam Haney, Nathan Goldbaum, Adam Ginsburg,
 Gustavo Bragança, Tobias Brandt, Andrea Zonca, Aaron O'Leary, Simon Guillot,
-Fernando Correia, Takashi Nishibayashi, Simon Conseil, and Thomas French
-for patches, documentation fixes, and suggestions.
+Fernando Correia, Takashi Nishibayashi, Simon Conseil, Thomas French,
+Martin Fitzpatrick, Giuseppe Ottaviano, John Kirkham, Tao Luo, and
+Christopher Prohm for patches, documentation fixes, and suggestions.
 
 .. |Travis Build Status| image:: https://travis-ci.org/paulgb/runipy.svg?branch=master
     :target: https://travis-ci.org/paulgb/runipy
