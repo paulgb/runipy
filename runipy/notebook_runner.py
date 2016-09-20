@@ -198,12 +198,12 @@ class NotebookRunner(object):
                         raise NotImplementedError(
                             'unhandled mime type: %s' % mime
                         )
-                    
+
                     # In notebook version <= 3 JSON data is stored as a string
                     # Evaluation of IPython2's JSON gives strings directly
                     # Therefore do not encode for IPython versions prior to 3
                     json_encode = (
-                            IPython.version_info[0] >= 3 and 
+                            IPython.version_info[0] >= 3 and
                             mime == "application/json")
 
                     data_out = data if not json_encode else json.dumps(data)
