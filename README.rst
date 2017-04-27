@@ -2,6 +2,10 @@
 
 --------------
 
+**Note**: This project started before Jupyter's 
+`execute API <http://nbconvert.readthedocs.io/en/latest/execute_api.html>`_,
+which is now the recommended way to run notebooks from the command-line.
+
 ``runipy``: run IPython as a script
 =====================================
 
@@ -16,10 +20,6 @@ The IPython notebook provides an interactive interface to a Python interpreter.
 - **Data pipeline**: if you use IPython notebooks to create a data pipeline,
   ``runipy`` lets you automate that pipeline without losing the notebook
   formatting.
-  
-Note that some of the functionality overlaps with Jupyter's
-`execute API <http://nbconvert.readthedocs.io/en/latest/execute_api.html>`_,
-which may be appropriate for some use cases where ``runipy`` was previously used.
 
 Requirements
 ------------
