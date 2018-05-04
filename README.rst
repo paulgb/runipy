@@ -1,4 +1,4 @@
-.. |status| image:: https://img.shields.io/osslifecycle/paulgb/runipy.svg
+.. image:: https://img.shields.io/osslifecycle/paulgb/runipy.svg
 
 --------------
 
