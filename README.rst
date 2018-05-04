@@ -1,4 +1,4 @@
-|Travis Build Status| |Coveralls| |License| |PyPI| |Anaconda| |Gitter|
+.. |status| image:: https://img.shields.io/osslifecycle/paulgb/runipy.svg
 
 --------------
 
